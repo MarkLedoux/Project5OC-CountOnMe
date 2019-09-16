@@ -79,8 +79,10 @@
 		1FA43BC6224E569900F565CB = {
 			isa = PBXGroup;
 			children = (
-				B35AEBDE232F2204008AAF74 /* Default-568h@2x.png */,
-				1FA43BD1224E569900F565CB /* CountOnMe */,
+				B3F7D039232F234100A30AA1 /* View */,
+				B3F7D03A232F234B00A30AA1 /* Controller */,
+				B3F7D03B232F235A00A30AA1 /* Model */,
+				B35AEBDD232F21CF008AAF74 /* Supporting Files */,
 				1FA43BE6224E569A00F565CB /* CountOnMeTests */,
 				1FA43BF1224E569A00F565CB /* CountOnMeUITests */,
 				1FA43BD0224E569900F565CB /* Products */,
@@ -97,15 +99,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1FA43BD1224E569900F565CB /* CountOnMe */ = {
-			isa = PBXGroup;
-			children = (
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
-				1FA43BD6224E569900F565CB /* Main.storyboard */,
-			);
-			path = CountOnMe;
-			sourceTree = "<group>";
-		};
 		1FA43BE6224E569A00F565CB /* CountOnMeTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +113,6 @@
 			children = (
 				1FA43BF4224E569A00F565CB /* Info.plist */,
 				1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */,
-				B35AEBDD232F21CF008AAF74 /* Supporting Files */,
 			);
 			path = CountOnMeUITests;
 			sourceTree = "<group>";
@@ -128,12 +120,36 @@
 		B35AEBDD232F21CF008AAF74 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B35AEBDE232F2204008AAF74 /* Default-568h@2x.png */,
 				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B3F7D039232F234100A30AA1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD6224E569900F565CB /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B3F7D03A232F234B00A30AA1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD4224E569900F565CB /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B3F7D03B232F235A00A30AA1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
