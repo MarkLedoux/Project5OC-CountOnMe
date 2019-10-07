@@ -56,5 +56,34 @@ class CountOnMe {
             printedString.append(" = \(operationsToReduce.first!)")
         }
     }
+
+    private func sendNotification(name: String) {
+        let name = Notification.Name(rawValue: name)
+        let notification = Notification(name: name)
+        NotificationCenter.default.post(notification)
+
+    }
+
+    func addNumber(_ numberText: String) {
+        if expressionHaveResult {
+            printedString = ""
+        }
+        printedString.append(numberText)
+        sendNotification(name:"receivedDataFromCountOnMe")
+    }
+
+    func plusButtonTapped() {
+        if canAddOperator {
+        printedString.append(" + ")
+        sendNotification(name: "receivedDataFromCountOnMe")
+        }
+    }
+
+    func minusButtonTapped() {
+        if canAddOperator {
+        printedString.append(" - ")
+        sendNotification(name: "receivedDataFromCoutOnMe")
+        }
+    }
     
 }
