@@ -76,6 +76,8 @@ class CountOnMe {
         if canAddOperator {
         printedString.append(" + ")
         sendNotification(name: "receivedDataFromCountOnMe")
+        } else {
+            sendNotification(name: "presentAlert")
         }
     }
 
@@ -83,7 +85,17 @@ class CountOnMe {
         if canAddOperator {
         printedString.append(" - ")
         sendNotification(name: "receivedDataFromCoutOnMe")
+        } else {
+            sendNotification(name: "presentAlert")
         }
     }
-    
+
+    func equalButtonTapped() {
+        guard expressionIsCorrect else {
+            return sendNotification(name: "presentAlertForCorrectExpression")
+        }
+        guard expressionHaveEnoughElement else {
+            return sendNotification(name: "presentAlertForElementNumber")
+        }
+    }
 }

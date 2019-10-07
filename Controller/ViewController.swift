@@ -33,51 +33,41 @@ class ViewController: UIViewController {
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         countOnMe.plusButtonTapped()
-        // present alert using the notification and check if condition in the model
-        // todo : - make a function that calls the alert when an error occurs and the same for line 49-52
-//        } else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         countOnMe.minusButtonTapped()
-
-        // present alert using the notification
-//        } else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard countOnMe.expressionIsCorrect else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
-        }
-        
-        guard countOnMe.expressionHaveEnoughElement else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
-        }
+        countOnMe.equalButtonTapped()
         countOnMe.reduce()
-        textView.text = countOnMe.printedString
+        receiveDataFromCountOnMe()
     }
+
+    // MARK: - @obj functions and other methods to present alerts to the user
 
     @objc func receiveDataFromCountOnMe() {
         textView.text = countOnMe.printedString
     }
 
-    func presentAlert() {
+    private func presentAlertForAdditionSubstraction() {
         //create a notification for error and make it so that an alert is called 
         let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
+    }
+
+    private func presentAlertForCorrectExpression() {
+        let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return self.present(alertVC, animated: true, completion: nil)
+    }
+
+    private func presentAlertForElementNumber() {
+        let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return self.present(alertVC, animated: true, completion: nil)
     }
 
 }
