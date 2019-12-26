@@ -44,7 +44,19 @@ class ViewController: UIViewController {
         countOnMe.reduce()
         receiveDataFromCountOnMe()
     }
-
+    
+    @IBAction func tappedMultiplyButton(_ sender: UIButton) {
+        countOnMe.multiplyButtonTapped()
+    }
+    
+    @IBAction func tappedDivideButton(_ sender: UIButton) {
+        countOnMe.divideButtonTapped()
+    }
+    
+    
+    @IBAction func tappedDecimalsButton(_ sender: UIButton) {
+    }
+    
     // MARK: - @obj functions and other methods to present alerts to the user
 
     @objc func receiveDataFromCountOnMe() {

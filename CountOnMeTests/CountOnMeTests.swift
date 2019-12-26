@@ -45,5 +45,29 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(countOnMe.printedString, "9 - 8 = 1")
     }
+    
+    func testReduceMutltiply() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 x 8"
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "9 x 8 = 72")
+    }
+    
+    func testReduceDivision() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 ÷ 3"
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "9 ÷ 3 = 3")
+    }
 
 }
