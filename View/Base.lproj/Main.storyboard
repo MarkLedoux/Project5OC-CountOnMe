@@ -192,7 +192,7 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="tappedDecimalsButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="Pj9-yO-GfY"/>
+                                                    <action selector="tappedACButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="8Xi-vK-rbC"/>
                                                 </connections>
                                             </button>
                                         </subviews>

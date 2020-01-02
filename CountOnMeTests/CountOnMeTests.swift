@@ -61,13 +61,24 @@ class CountOnMeTests: XCTestCase {
     func testReduceDivision() {
         // Given
         let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 ÷ 3"
+        countOnMe.printedString = "9 ÷ 4"
         
         // When
         countOnMe.reduce()
         
         // Then
-        XCTAssertEqual(countOnMe.printedString, "9 ÷ 3 = 3")
+        XCTAssertEqual(countOnMe.printedString, "9 ÷ 4 = 2.25")
+    }
+    
+    func testACButton() {
+        // Given
+        let countOnMe = CountOnMe()
+        
+        // When
+        countOnMe.acButtonTapped()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "")
     }
 
 }

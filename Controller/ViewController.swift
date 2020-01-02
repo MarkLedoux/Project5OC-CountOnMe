@@ -23,7 +23,9 @@ class ViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(receiveDataFromCountOnMe), name: name, object: nil )
     }
     
-    // View actions
+    // MARK: Actions
+    
+    
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
@@ -53,9 +55,12 @@ class ViewController: UIViewController {
         countOnMe.divideButtonTapped()
     }
     
-    
-    @IBAction func tappedDecimalsButton(_ sender: UIButton) {
+    @IBAction func tappedACButton(_ sender: UIButton) {
+        countOnMe.acButtonTapped()
     }
+    
+    
+   
     
     // MARK: - @obj functions and other methods to present alerts to the user
 
