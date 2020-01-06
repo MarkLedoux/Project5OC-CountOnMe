@@ -80,5 +80,16 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(countOnMe.printedString, "")
     }
+    
+    func testReduceDivisionByZero() {
+        // Given
+        let countOnMe = CountOnMe()
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "9 ÷ 0 = Unvalid operation")
+    }
 
 }

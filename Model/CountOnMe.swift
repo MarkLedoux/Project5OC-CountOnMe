@@ -8,6 +8,19 @@
 
 import Foundation
 
+private enum CalculatorError: Error {
+    case zeroDivisor
+}
+
+extension CalculatorError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .zeroDivisor:
+            return "Not a number"
+        }
+    }
+}
+
 extension Float {
     var clean: String {
         return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
@@ -57,6 +70,14 @@ class CountOnMe {
             case "x": result = left * right
             case "÷": result = left / right
             default: fatalError("Unknown operator !")
+            }
+            
+            do {
+                try divisionError(left, by: right)
+            }
+            catch {
+                CalculatorError.zeroDivisor
+                print("Not a number")
             }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
@@ -137,7 +158,12 @@ class CountOnMe {
         }
     }
     
-    // when a division by 0 is made, make an error that send a message to the calculator saying the operation is not possible
+    func divisionError(_ left: Float, by right: Float) throws -> Float {
+        guard right != 0 else {
+            throw CalculatorError.zeroDivisor
+        }
+        return left / right
+    }
     
     // when tapping a number and the and operand, do the same as the calculator and calculate as if the second number was the same
     
