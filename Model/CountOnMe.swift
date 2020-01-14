@@ -65,6 +65,8 @@ class CountOnMe {
             do { try elementMissing() }
             catch {
                 printedString = "Missing Element"
+//                sendNotification(name: "receivedDataFromCountOnMe")
+//                printedString = ""
                 return
             }
             

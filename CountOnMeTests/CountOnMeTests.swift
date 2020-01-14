@@ -104,5 +104,53 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(countOnMe.printedString, "Missing Element")
     }
+    
+    func testMinusButton() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = ""
+        
+        // When
+        countOnMe.minusButtonTapped()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, " - ")
+    }
+    
+    func testPlusButton() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = ""
+        
+        // When
+        countOnMe.plusButtonTapped()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, " + ")
+    }
+    
+    func testMultiplyButton() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = ""
+        
+        // When
+        countOnMe.multiplyButtonTapped()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, " x ")
+    }
+    
+    
+    func testMinusButtonForElse() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 - 4 +"
+        
+        // When
+        countOnMe.minusButtonTapped()
+        
+        // Then
+    }
 
 }
