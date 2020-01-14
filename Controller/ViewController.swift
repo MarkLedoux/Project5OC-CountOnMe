@@ -43,8 +43,7 @@ class ViewController: UIViewController {
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         countOnMe.equalButtonTapped()
-        countOnMe.reduce()
-        receiveDataFromCountOnMe()
+        countOnMe.reduce()        
     }
     
     @IBAction func tappedMultiplyButton(_ sender: UIButton) {

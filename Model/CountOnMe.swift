@@ -68,8 +68,8 @@ class CountOnMe {
             do { try elementMissing() }
             catch {
                 printedString = "Missing Element"
-//                sendNotification(name: "receivedDataFromCountOnMe")
-//                printedString = ""
+                sendNotification(name: "receivedDataFromCountOnMe")
+                printedString = ""
                 return
             }
             do { try unknownOperator() }
@@ -113,6 +113,7 @@ class CountOnMe {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result.clean)", at: 0)
             printedString.append(" = \(operationsToReduce.first!)")
+            sendNotification(name: "receivedDataFromCountOnMe")
         }
     }
 
@@ -120,7 +121,6 @@ class CountOnMe {
         let name = Notification.Name(rawValue: name)
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
-
     }
 
     func addNumber(_ numberText: String) {
