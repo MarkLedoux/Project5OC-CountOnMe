@@ -141,6 +141,84 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(countOnMe.printedString, " x ")
     }
     
+    func testDivideButton() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = ""
+        
+        // When
+        countOnMe.divideButtonTapped()
+        
+        // Then
+        
+        XCTAssertEqual(countOnMe.printedString, " ÷ ")
+    }
+    
+    func testEqualButton() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = ""
+        
+        // When
+        countOnMe.equalButtonTapped()
+        
+        // Then
+        
+        XCTAssertEqual(countOnMe.printedString, "")
+    }
+    
+    func testAddNumber() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = ""
+        
+        // When
+        countOnMe.addNumber(String(1))
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "1")
+    }
+    
+    func testReduceValidLeftoperator() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "a + 9"
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "Left operator not valid")
+    }
+    
+    func testReduceValidRighttoperator() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 + a"
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "Right operator not valid")
+    }
+    
+    func testUnknownOperator() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 a 9"
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "Unknown operator!")
+    }
+    
+    
+    
+    
+    
     
     func testMinusButtonForElse() {
         // Given

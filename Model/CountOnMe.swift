@@ -11,6 +11,7 @@ import Foundation
 private enum CalculatorError: Error {
     case zeroDivisor
     case missingElement
+    case unknowOperator
 }
 
 extension CalculatorError: LocalizedError {
@@ -20,6 +21,8 @@ extension CalculatorError: LocalizedError {
             return "Not a number"
         case .missingElement:
             return "Element missing"
+        case .unknowOperator:
+            return "Unknow operator!"
         }
     }
 }
@@ -69,6 +72,11 @@ class CountOnMe {
 //                printedString = ""
                 return
             }
+            do { try unknownOperator() }
+            catch {
+                printedString = "Unknown operator!"
+                return
+            }
             
             let left = operationsToReduce[0]
             let operand = operationsToReduce[1]
@@ -78,14 +86,14 @@ class CountOnMe {
             guard let leftValue = Float(left) else {
                 printedString = "Left operator not valid"
                 sendNotification(name: "receivedDataFromCountOnMe")
-                printedString = ""
+//                printedString = ""
                 return
             }
             
             guard let rightValue = Float(right) else {
                 printedString = "Right operator not valid"
                 sendNotification(name: "receivedDataFromCountOnMe")
-                printedString = ""
+//                printedString = ""
                 return
             }
             
@@ -189,6 +197,12 @@ class CountOnMe {
     func elementMissing() throws {
         guard expressionHaveEnoughElement else {
             throw CalculatorError.missingElement
+        }
+    }
+    
+    func unknownOperator() throws {
+        guard elements.contains("+")  || elements.contains("x") || elements.contains("÷") || elements.contains("-") else {
+            throw CalculatorError.unknowOperator
         }
     }
     
