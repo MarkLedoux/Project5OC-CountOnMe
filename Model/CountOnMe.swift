@@ -10,6 +10,7 @@ import Foundation
 
 private enum CalculatorError: Error {
     case zeroDivisor
+    case missingElement
 }
 
 extension CalculatorError: LocalizedError {
@@ -17,6 +18,8 @@ extension CalculatorError: LocalizedError {
         switch self {
         case .zeroDivisor:
             return "Not a number"
+        case .missingElement:
+            return "Element missing"
         }
     }
 }
@@ -59,26 +62,43 @@ class CountOnMe {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let left = Float(operationsToReduce[0])!
+            do { try elementMissing() }
+            catch {
+                printedString = "Missing Element"
+                return
+            }
+            
+            let left = operationsToReduce[0]
             let operand = operationsToReduce[1]
-            let right = Float(operationsToReduce[2])!
+            let right = operationsToReduce[2]
+            
+            
+            guard let leftValue = Float(left) else {
+                printedString = "Left operator not valid"
+                sendNotification(name: "receivedDataFromCountOnMe")
+                printedString = ""
+                return
+            }
+            
+            guard let rightValue = Float(right) else {
+                printedString = "Right operator not valid"
+                sendNotification(name: "receivedDataFromCountOnMe")
+                printedString = ""
+                return
+            }
+            
             
             let result: Float
             switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "x": result = left * right
-            case "÷": result = left / right
+            case "+": result = leftValue + rightValue
+            case "-": result = leftValue - rightValue
+            case "x": result = leftValue * rightValue
+            case "÷": result = leftValue / rightValue
             default: fatalError("Unknown operator !")
             }
             
-            do {
-                try divisionError(left, by: right)
-            }
-            catch {
-                CalculatorError.zeroDivisor
-                print("Not a number")
-            }
+            do { try divisionError(leftValue, by: rightValue) }
+            catch { printedString = "Not a number" }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result.clean)", at: 0)
@@ -158,14 +178,19 @@ class CountOnMe {
         }
     }
     
-    func divisionError(_ left: Float, by right: Float) throws -> Float {
+    func divisionError(_ left: Float, by right: Float) throws {
         guard right != 0 else {
             throw CalculatorError.zeroDivisor
         }
-        return left / right
     }
     
-    // when tapping a number and the and operand, do the same as the calculator and calculate as if the second number was the same
+    func elementMissing() throws {
+        guard expressionHaveEnoughElement else {
+            throw CalculatorError.missingElement
+        }
+    }
     
-    // make a test when tapping two operands in a row, cancel the first one that was tapped and only take into account the second one 
+    // look where to put printedstring in order to properly shows the errors on screen and unit tests
+    
+    // priority for operations
 }

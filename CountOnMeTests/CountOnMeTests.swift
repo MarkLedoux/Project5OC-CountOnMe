@@ -84,12 +84,25 @@ class CountOnMeTests: XCTestCase {
     func testReduceDivisionByZero() {
         // Given
         let countOnMe = CountOnMe()
+        countOnMe.printedString = "5 ÷ 0"
         
         // When
         countOnMe.reduce()
         
         // Then
-        XCTAssertEqual(countOnMe.printedString, "9 ÷ 0 = Unvalid operation")
+        XCTAssertEqual(countOnMe.printedString, "Not a number = inf")
+    }
+    
+    func testMissingElement() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "5 + "
+        
+        // When
+        countOnMe.reduce()
+        
+        // Then
+        XCTAssertEqual(countOnMe.printedString, "Missing Element")
     }
 
 }
