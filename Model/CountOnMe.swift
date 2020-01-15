@@ -117,7 +117,7 @@ class CountOnMe {
         }
     }
 
-    private func sendNotification(name: String) {
+    func sendNotification(name: String) {
         let name = Notification.Name(rawValue: name)
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)

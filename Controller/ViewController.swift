@@ -67,20 +67,20 @@ class ViewController: UIViewController {
         textView.text = countOnMe.printedString
     }
 
-    private func presentAlertForAdditionSubstraction() {
+    func presentAlertForAdditionSubstraction() {
         //create a notification for error and make it so that an alert is called 
         let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
 
-    private func presentAlertForCorrectExpression() {
+    func presentAlertForCorrectExpression() {
         let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)
     }
 
-    private func presentAlertForElementNumber() {
+    func presentAlertForElementNumber() {
         let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)

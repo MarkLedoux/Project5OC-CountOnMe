@@ -215,20 +215,17 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(countOnMe.printedString, "Unknown operator!")
     }
     
-    
-    
-    
-    
-    
-    func testMinusButtonForElse() {
+    func testCorrectExpressionNotification() {
         // Given
         let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 - 4 +"
+        expectation(forNotification: NSNotification.Name(rawValue: "presentAlert"), object: nil, handler: nil)
         
         // When
-        countOnMe.minusButtonTapped()
+        countOnMe.plusButtonTapped()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "presentAlert"), object: nil)
         
         // Then
+        waitForExpectations(timeout: 0.1, handler: nil)
     }
 
 }
