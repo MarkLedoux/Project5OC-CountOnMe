@@ -38,6 +38,9 @@ extension Double {
 
 extension Notification.Name {
     static let receivedDataFromCountOnMe = Notification.Name("receivedDataFromCountOnMe")
+    static let presentAlert = Notification.Name("presentAlert")
+    static let presentAlertForCorrectExpression = Notification.Name("presentAlertForCorrectExpression")
+    static let presentAlertForElementNumber = Notification.Name("presentAlertForElementNumber")
 }
 
 extension String {
@@ -98,7 +101,7 @@ class CountOnMe {
             
             guard let leftValue = Double(left) else {
                 printedString = "Left operator not valid"
-                sendNotification(name: "receivedDataFromCountOnMe")
+                sendNotification(name: .receivedDataFromCountOnMe)
                 return
             }
             
@@ -143,7 +146,7 @@ class CountOnMe {
 
     func plusButtonTapped() {
         guard canAddOperator else {
-            sendNotification(name: "presentAlert")
+            sendNotification(name: .presentAlert)
             return
         }
         printedString.append(" + ")
@@ -152,7 +155,7 @@ class CountOnMe {
 
     func minusButtonTapped() {
         guard canAddOperator else {
-            sendNotification(name: "presentAlert")
+            sendNotification(name: .presentAlert)
             return
         }
         
@@ -162,7 +165,7 @@ class CountOnMe {
     
     func multiplyButtonTapped() {
         guard canAddOperator else {
-            sendNotification(name: "presentAlert")
+            sendNotification(name: .presentAlert)
             return
         }
             printedString.append(" x ")
@@ -171,7 +174,7 @@ class CountOnMe {
     
     func divideButtonTapped() {
         guard canAddOperator else {
-            sendNotification(name: "presentAlert")
+            sendNotification(name: .presentAlert)
             return
         }
         printedString.append(" ÷ ")
@@ -182,7 +185,7 @@ class CountOnMe {
     func acButtonTapped() {
         // when the button is tapped so it sends data to the controller
         guard canAddOperator else {
-            sendNotification(name: "presentAlert")
+            sendNotification(name: .presentAlert)
             return
         }
             printedString = "0"
@@ -192,10 +195,10 @@ class CountOnMe {
 
     func equalButtonTapped() {
         guard expressionIsCorrect else {
-            return sendNotification(name: "presentAlertForCorrectExpression")
+            return sendNotification(name: .presentAlertForCorrectExpression)
         }
         guard expressionHaveEnoughElement else {
-            return sendNotification(name: "presentAlertForElementNumber")
+            return sendNotification(name: .presentAlertForElementNumber)
         }
     }
     
