@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
 
-    let countOnMe = CountOnMe()
+    let countOnMe = Calculator()
     
     // View Life cycles
     override func viewDidLoad() {

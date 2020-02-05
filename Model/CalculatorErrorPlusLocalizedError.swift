@@ -9,7 +9,7 @@
 import Foundation
 
 // Enum with the cases of errors handled in the app
-private enum CalculatorError: Error {
+enum CalculatorError: Error {
     case zeroDivisor
     case missingElement
     case unknowOperator
@@ -20,11 +20,11 @@ extension CalculatorError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .zeroDivisor:
-            return "Not a number"
+            return NSLocalizedString("Not a number", comment: "")
         case .missingElement:
-            return "Element missing"
+            return NSLocalizedString("Element missing", comment: "")
         case .unknowOperator:
-            return "Unknow operator!"
+            return NSLocalizedString("Unknow operator!", comment: "")
         }
     }
 }

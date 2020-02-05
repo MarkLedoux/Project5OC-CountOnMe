@@ -8,8 +8,8 @@
 
 import Foundation
 
-class CountOnMe {
-
+class Calculator {
+    // MARK: Properties
     var printedString: String = "1 + 1 = 2"
 
     var elements: [String] {
@@ -33,6 +33,7 @@ class CountOnMe {
         return printedString.firstIndex(of: "=") != nil
     }
     
+    // MARK: Functions
     func reduce() {
         
         // Create local copy of operations
@@ -42,14 +43,14 @@ class CountOnMe {
         while operationsToReduce.count > 1 {
             do { try elementMissing() }
             catch {
-                printedString = "Missing Element"
+                printedString = CalculatorError.missingElement.localizedDescription
                 sendNotification(name: .receivedDataFromCountOnMe)
                 printedString = ""
                 return
             }
             do { try unknownOperator() }
-            catch error {
-                printedString = error.description
+            catch {
+                printedString = CalculatorError.unknowOperator.localizedDescription
                 return
             }
             
@@ -81,7 +82,7 @@ class CountOnMe {
             }
             
             do { try divisionError(leftValue, by: rightValue) }
-            catch { printedString = "Not a number" }
+            catch { printedString = CalculatorError.zeroDivisor.localizedDescription }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result.clean)", at: 0)
@@ -95,6 +96,7 @@ class CountOnMe {
         NotificationCenter.default.post(notification)
     }
 
+    
     func addNumber(_ numberText: String) {
         guard expressionHaveResult else { return }
         
@@ -103,6 +105,7 @@ class CountOnMe {
         sendNotification(name:.receivedDataFromCountOnMe)
     }
 
+    // MARK: Functions for when the operands buttons are tapped on the calculator
     func plusButtonTapped() {
         guard canAddOperator else {
             sendNotification(name: .presentAlert)
