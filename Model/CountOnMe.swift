@@ -8,47 +8,6 @@
 
 import Foundation
 
-// Enum with the cases of errors handled in the app
-private enum CalculatorError: Error {
-    case zeroDivisor
-    case missingElement
-    case unknowOperator
-}
-
-// Extension explaining what the program needs to return depending on the error return by the program
-extension CalculatorError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .zeroDivisor:
-            return "Not a number"
-        case .missingElement:
-            return "Element missing"
-        case .unknowOperator:
-            return "Unknow operator!"
-        }
-    }
-}
-
-// Extension used to return a truncated result when a multiplication, addition or substraction is made, thus removing the decimal
-extension Double {
-    var clean: String {
-        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
-    }
-}
-
-extension Notification.Name {
-    static let receivedDataFromCountOnMe = Notification.Name("receivedDataFromCountOnMe")
-    static let presentAlert = Notification.Name("presentAlert")
-    static let presentAlertForCorrectExpression = Notification.Name("presentAlertForCorrectExpression")
-    static let presentAlertForElementNumber = Notification.Name("presentAlertForElementNumber")
-}
-
-extension String {
-    var localized: String {
-        return NSLocalizedString(self, comment: "")
-    }
-}
-
 class CountOnMe {
 
     var printedString: String = "1 + 1 = 2"
@@ -219,19 +178,4 @@ class CountOnMe {
             throw CalculatorError.unknowOperator
         }
     }
-    
-    enum Operator {
-        case plus, minus, multiply, divide
-        
-        func asString() {
-            switch self {
-            case .plus: "+"
-            case .divide: "÷"
-            case .minus: "-"
-            case .multiply: "x"
-            }
-        }
-    }
-    
-    // priority for operations
 }

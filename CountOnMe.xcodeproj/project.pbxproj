@@ -12,6 +12,12 @@
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
+		6E4A176123EAB9C100908BE7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A176023EAB9C100908BE7 /* String.swift */; };
+		6E4A176323EAB9F100908BE7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A176223EAB9F100908BE7 /* Notification.swift */; };
+		6E4A176523EABA1E00908BE7 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A176423EABA1E00908BE7 /* Double.swift */; };
+		6E4A176723EABAA100908BE7 /* CalculatorErrorPlusLocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A176623EABAA100908BE7 /* CalculatorErrorPlusLocalizedError.swift */; };
+		6E4A176923EABADC00908BE7 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A176823EABADC00908BE7 /* AlertPresenter.swift */; };
+		6E4A176B23EABAEF00908BE7 /* Operator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A176A23EABAEF00908BE7 /* Operator.swift */; };
 		6E959DF223A8F67A00FE1DC9 /* CountOnMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E959DF123A8F67A00FE1DC9 /* CountOnMeTests.swift */; };
 		B35AEBDF232F2204008AAF74 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B35AEBDE232F2204008AAF74 /* Default-568h@2x.png */; };
 		B3802A872334E23C00456D73 /* CountOnMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3802A862334E23C00456D73 /* CountOnMe.swift */; };
@@ -35,6 +41,12 @@
 		1FA43BD9224E569A00F565CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FA43BDC224E569A00F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FA43BDE224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E4A176023EAB9C100908BE7 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		6E4A176223EAB9F100908BE7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		6E4A176423EABA1E00908BE7 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		6E4A176623EABAA100908BE7 /* CalculatorErrorPlusLocalizedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorErrorPlusLocalizedError.swift; sourceTree = "<group>"; };
+		6E4A176823EABADC00908BE7 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		6E4A176A23EABAEF00908BE7 /* Operator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operator.swift; sourceTree = "<group>"; };
 		6E959DEF23A8F67A00FE1DC9 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E959DF123A8F67A00FE1DC9 /* CountOnMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMeTests.swift; sourceTree = "<group>"; };
 		6E959DF323A8F67A00FE1DC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,6 +134,12 @@
 			isa = PBXGroup;
 			children = (
 				B3802A862334E23C00456D73 /* CountOnMe.swift */,
+				6E4A176A23EABAEF00908BE7 /* Operator.swift */,
+				6E4A176823EABADC00908BE7 /* AlertPresenter.swift */,
+				6E4A176623EABAA100908BE7 /* CalculatorErrorPlusLocalizedError.swift */,
+				6E4A176423EABA1E00908BE7 /* Double.swift */,
+				6E4A176223EAB9F100908BE7 /* Notification.swift */,
+				6E4A176023EAB9C100908BE7 /* String.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,8 +247,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
+				6E4A176323EAB9F100908BE7 /* Notification.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
+				6E4A176123EAB9C100908BE7 /* String.swift in Sources */,
+				6E4A176523EABA1E00908BE7 /* Double.swift in Sources */,
 				B3802A872334E23C00456D73 /* CountOnMe.swift in Sources */,
+				6E4A176723EABAA100908BE7 /* CalculatorErrorPlusLocalizedError.swift in Sources */,
+				6E4A176B23EABAEF00908BE7 /* Operator.swift in Sources */,
+				6E4A176923EABADC00908BE7 /* AlertPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
