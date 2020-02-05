@@ -8,12 +8,14 @@
 
 import Foundation
 
+// Enum with the cases of errors handled in the app
 private enum CalculatorError: Error {
     case zeroDivisor
     case missingElement
     case unknowOperator
 }
 
+// Extension explaining what the program needs to return depending on the error return by the program
 extension CalculatorError: LocalizedError {
     public var errorDescription: String? {
         switch self {
@@ -27,9 +29,20 @@ extension CalculatorError: LocalizedError {
     }
 }
 
-extension Float {
+// Extension used to return a truncated result when a multiplication, addition or substraction is made, thus removing the decimal
+extension Double {
     var clean: String {
         return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+    }
+}
+
+extension Notification.Name {
+    static let receivedDataFromCountOnMe = Notification.Name("receivedDataFromCountOnMe")
+}
+
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
     }
 }
 
@@ -68,13 +81,13 @@ class CountOnMe {
             do { try elementMissing() }
             catch {
                 printedString = "Missing Element"
-                sendNotification(name: "receivedDataFromCountOnMe")
+                sendNotification(name: .receivedDataFromCountOnMe)
                 printedString = ""
                 return
             }
             do { try unknownOperator() }
-            catch {
-                printedString = "Unknown operator!"
+            catch error {
+                printedString = error.description
                 return
             }
             
@@ -83,22 +96,20 @@ class CountOnMe {
             let right = operationsToReduce[2]
             
             
-            guard let leftValue = Float(left) else {
+            guard let leftValue = Double(left) else {
                 printedString = "Left operator not valid"
                 sendNotification(name: "receivedDataFromCountOnMe")
-//                printedString = ""
                 return
             }
             
-            guard let rightValue = Float(right) else {
+            guard let rightValue = Double(right) else {
                 printedString = "Right operator not valid"
-                sendNotification(name: "receivedDataFromCountOnMe")
-//                printedString = ""
+                sendNotification(name: .receivedDataFromCountOnMe)
                 return
             }
             
             
-            let result: Float
+            let result: Double
             switch operand {
             case "+": result = leftValue + rightValue
             case "-": result = leftValue - rightValue
@@ -113,70 +124,70 @@ class CountOnMe {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result.clean)", at: 0)
             printedString.append(" = \(operationsToReduce.first!)")
-            sendNotification(name: "receivedDataFromCountOnMe")
+            sendNotification(name: .receivedDataFromCountOnMe)
         }
     }
 
-    func sendNotification(name: String) {
-        let name = Notification.Name(rawValue: name)
+    func sendNotification(name: Notification.Name) {
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
     }
 
     func addNumber(_ numberText: String) {
-        if expressionHaveResult {
-            printedString = ""
-        }
+        guard expressionHaveResult else { return }
+        
+        printedString = ""
         printedString.append(numberText)
-        sendNotification(name:"receivedDataFromCountOnMe")
+        sendNotification(name:.receivedDataFromCountOnMe)
     }
 
     func plusButtonTapped() {
-        if canAddOperator {
-            printedString.append(" + ")
-            sendNotification(name: "receivedDataFromCountOnMe")
-        } else {
+        guard canAddOperator else {
             sendNotification(name: "presentAlert")
+            return
         }
+        printedString.append(" + ")
+        sendNotification(name: .receivedDataFromCountOnMe)
     }
 
     func minusButtonTapped() {
-        if canAddOperator {
-            printedString.append(" - ")
-            sendNotification(name: "receivedDataFromCoutOnMe")
-        } else {
+        guard canAddOperator else {
             sendNotification(name: "presentAlert")
+            return
         }
+        
+        printedString.append(" - ")
+        sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func multiplyButtonTapped() {
-        if canAddOperator {
-            printedString.append(" x ")
-            sendNotification(name: "receivedDataFromCountOnMe")
-        } else {
+        guard canAddOperator else {
             sendNotification(name: "presentAlert")
+            return
         }
+            printedString.append(" x ")
+            sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func divideButtonTapped() {
-        if canAddOperator {
-            printedString.append(" ÷ ")
-            sendNotification(name: "receivedDataFromCountOnMe")
-        } else {
+        guard canAddOperator else {
             sendNotification(name: "presentAlert")
+            return
         }
+        printedString.append(" ÷ ")
+            sendNotification(name: .receivedDataFromCountOnMe)
         
     }
     
     func acButtonTapped() {
         // when the button is tapped so it sends data to the controller
-        if canAddOperator {
-            printedString = "0"
-            sendNotification(name: "receivedDataFromCountOnMe")
-            printedString = ""
-        } else {
+        guard canAddOperator else {
             sendNotification(name: "presentAlert")
+            return
         }
+            printedString = "0"
+            sendNotification(name: .receivedDataFromCountOnMe)
+            printedString = ""
     }
 
     func equalButtonTapped() {
@@ -188,7 +199,7 @@ class CountOnMe {
         }
     }
     
-    func divisionError(_ left: Float, by right: Float) throws {
+    func divisionError(_ left: Double, by right: Double) throws {
         guard right != 0 else {
             throw CalculatorError.zeroDivisor
         }
@@ -201,12 +212,23 @@ class CountOnMe {
     }
     
     func unknownOperator() throws {
-        guard elements.contains("+")  || elements.contains("x") || elements.contains("÷") || elements.contains("-") else {
+        if elements.contains("+") || elements.contains("x") || elements.contains("÷") || elements.contains("-") {
             throw CalculatorError.unknowOperator
         }
     }
     
-    // look where to put printedstring in order to properly shows the errors on screen and unit tests
+    enum Operator {
+        case plus, minus, multiply, divide
+        
+        func asString() {
+            switch self {
+            case .plus: "+"
+            case .divide: "÷"
+            case .minus: "-"
+            case .multiply: "x"
+            }
+        }
+    }
     
     // priority for operations
 }

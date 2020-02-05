@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
 
-    var countOnMe = CountOnMe()
+    let countOnMe = CountOnMe()
     
     // View Life cycles
     override func viewDidLoad() {
@@ -67,24 +67,23 @@ class ViewController: UIViewController {
         textView.text = countOnMe.printedString
     }
 
-    func presentAlertForAdditionSubstraction() {
-        //create a notification for error and make it so that an alert is called 
-        let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+    private func presentSimpleAlert(title: String, message: String) {
+        //create a notification for error and make it so that an alert is called
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertVC, animated: true, completion: nil)
+        present(alertVC, animated: true, completion: nil)
+    }
+    
+    private func presentAlertForAdditionSubstraction() {
+        presentSimpleAlert(title: "Zéro", message: "Un operateur est déja mis !")
     }
 
-    func presentAlertForCorrectExpression() {
-        let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
+    private func presentAlertForCorrectExpression() {
+         presentSimpleAlert(title: "Zéro", message: "Entrez une expression correcte !")
     }
 
-    func presentAlertForElementNumber() {
-        let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
+    private func presentAlertForElementNumber() {
+         presentSimpleAlert(title: "Zéro", message: "Démarrez un nouveau calcul !")
     }
 
 }
-

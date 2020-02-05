@@ -102,7 +102,7 @@ class CountOnMeTests: XCTestCase {
         countOnMe.reduce()
         
         // Then
-        XCTAssertEqual(countOnMe.printedString, "Missing Element")
+        XCTAssertEqual(countOnMe.printedString, "")
     }
     
     func testMinusButton() {
@@ -215,17 +215,43 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(countOnMe.printedString, "Unknown operator!")
     }
     
-    func testCorrectExpressionNotification() {
+    func testExpressionIsCorrect() {
         // Given
         let countOnMe = CountOnMe()
-        expectation(forNotification: NSNotification.Name(rawValue: "presentAlert"), object: nil, handler: nil)
+        countOnMe.printedString = "9 + "
+        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForCorrectExpression"), object: nil, handler: nil)
         
         // When
-        countOnMe.plusButtonTapped()
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "presentAlert"), object: nil)
+        countOnMe.equalButtonTapped()
         
         // Then
+        NotificationCenter.default.post(name: NSNotification.Name("presentAlertForCorrectExpression"), object: nil)
         waitForExpectations(timeout: 0.1, handler: nil)
     }
-
+    
+    func testAddNumberWhenExpressionHasResult() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 + 5 = 14"
+        
+        // When
+        countOnMe.equalButtonTapped()
+        
+        // Then
+        countOnMe.printedString = " = "
+    }
+    
+    func testMultiplyButtonTappedAlert() {
+        // Given
+        let countOnMe = CountOnMe()
+        countOnMe.printedString = "9 + "
+        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForElementNumber"), object: nil, handler: nil)
+        
+        // When
+        countOnMe.multiplyButtonTapped()
+        
+        // Then
+        NotificationCenter.default.post(name: NSNotification.Name("presentAlertForElementNumber"), object: nil)
+        waitForExpectations(timeout: 0.1, handler: nil)
+    }
 }
