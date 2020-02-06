@@ -25,7 +25,6 @@ class ViewController: UIViewController {
     
     // MARK: Actions
     
-    
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
@@ -58,9 +57,6 @@ class ViewController: UIViewController {
         countOnMe.acButtonTapped()
     }
     
-    
-   
-    
     // MARK: - @obj functions and other methods to present alerts to the user
 
     @objc func receiveDataFromCountOnMe() {
@@ -85,5 +81,4 @@ class ViewController: UIViewController {
     private func presentAlertForElementNumber() {
          presentSimpleAlert(title: "Zéro", message: "Démarrez un nouveau calcul !")
     }
-
 }

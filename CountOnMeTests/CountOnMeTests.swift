@@ -22,234 +22,234 @@ class CountOnMeTests: XCTestCase {
     func test_ReduceAddition() {
         
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "2 + 2"
+        let calculator = Calculator()
+        calculator.printedString = "2 + 2"
         
         // When
-        countOnMe.reduce()
+        calculator.reduce()
         
         // Then
-        XCTAssertEqual(countOnMe.printedString , "2 + 2 = 4")
+        XCTAssertEqual(calculator.printedString , "2 + 2 = 4")
         
     }
     
     func testReduceSubstraction()  {
         // Given
-        
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 - 8"
-        
+
+        let calculator = Calculator()
+        calculator.printedString = "9 - 8"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "9 - 8 = 1")
+        XCTAssertEqual(calculator.printedString, "9 - 8 = 1")
     }
-    
+
     func testReduceMutltiply() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 x 8"
-        
+        let calculator = Calculator()
+        calculator.printedString = "9 x 8"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "9 x 8 = 72")
+        XCTAssertEqual(calculator.printedString, "9 x 8 = 72")
     }
-    
+
     func testReduceDivision() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 ÷ 4"
-        
+        let calculator = Calculator()
+        calculator.printedString = "9 ÷ 4"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "9 ÷ 4 = 2.25")
+        XCTAssertEqual(calculator.printedString, "9 ÷ 4 = 2.25")
     }
-    
+
     func testACButton() {
         // Given
-        let countOnMe = CountOnMe()
-        
+        let calculator = Calculator()
+
         // When
-        countOnMe.acButtonTapped()
-        
+        calculator.acButtonTapped()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "")
+        XCTAssertEqual(calculator.printedString, "")
     }
-    
+
     func testReduceDivisionByZero() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "5 ÷ 0"
-        
+        let calculator = Calculator()
+        calculator.printedString = "5 ÷ 0"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "Not a number = inf")
+        XCTAssertEqual(calculator.printedString, "Not a number = inf")
     }
-    
+
     func testMissingElement() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "5 + "
-        
+        let calculator = Calculator()
+        calculator.printedString = "5 + "
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "")
+        XCTAssertEqual(calculator.printedString, "")
     }
-    
+
     func testMinusButton() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = ""
-        
+        let calculator = Calculator()
+        calculator.printedString = ""
+
         // When
-        countOnMe.minusButtonTapped()
-        
+        calculator.minusButtonTapped()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, " - ")
+        XCTAssertEqual(calculator.printedString, " - ")
     }
-    
+
     func testPlusButton() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = ""
-        
+        let calculator = Calculator()
+        calculator.printedString = ""
+
         // When
-        countOnMe.plusButtonTapped()
-        
+        calculator.plusButtonTapped()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, " + ")
+        XCTAssertEqual(calculator.printedString, " + ")
     }
-    
+
     func testMultiplyButton() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = ""
-        
+        let calculator = Calculator()
+        calculator.printedString = ""
+
         // When
-        countOnMe.multiplyButtonTapped()
-        
+        calculator.multiplyButtonTapped()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, " x ")
+        XCTAssertEqual(calculator.printedString, " x ")
     }
-    
+
     func testDivideButton() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = ""
-        
+        let calculator = Calculator()
+        calculator.printedString = ""
+
         // When
-        countOnMe.divideButtonTapped()
-        
+        calculator.divideButtonTapped()
+
         // Then
-        
-        XCTAssertEqual(countOnMe.printedString, " ÷ ")
+
+        XCTAssertEqual(calculator.printedString, " ÷ ")
     }
-    
+
     func testEqualButton() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = ""
-        
+        let calculator = Calculator()
+        calculator.printedString = ""
+
         // When
-        countOnMe.equalButtonTapped()
-        
+        calculator.equalButtonTapped()
+
         // Then
-        
-        XCTAssertEqual(countOnMe.printedString, "")
+
+        XCTAssertEqual(calculator.printedString, "")
     }
-    
+
     func testAddNumber() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = ""
-        
+        let calculator = Calculator()
+        calculator.printedString = ""
+
         // When
-        countOnMe.addNumber(String(1))
-        
+        calculator.addNumber(String(1))
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "1")
+        XCTAssertEqual(calculator.printedString, "1")
     }
-    
+
     func testReduceValidLeftoperator() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "a + 9"
-        
+        let calculator = Calculator()
+        calculator.printedString = "a + 9"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "Left operator not valid")
+        XCTAssertEqual(calculator.printedString, "Left operator not valid")
     }
-    
+
     func testReduceValidRighttoperator() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 + a"
-        
+        let calculator = Calculator()
+        calculator.printedString = "9 + a"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "Right operator not valid")
+        XCTAssertEqual(calculator.printedString, "Right operator not valid")
     }
-    
+
     func testUnknownOperator() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 a 9"
-        
+        let calculator = Calculator()
+        calculator.printedString = "9 a 9"
+
         // When
-        countOnMe.reduce()
-        
+        calculator.reduce()
+
         // Then
-        XCTAssertEqual(countOnMe.printedString, "Unknown operator!")
+        XCTAssertEqual(calculator.printedString, "Unknown operator!")
     }
-    
+
     func testExpressionIsCorrect() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 + "
+        let calculator = Calculator()
+        calculator.printedString = "9 + "
         expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForCorrectExpression"), object: nil, handler: nil)
-        
+
         // When
-        countOnMe.equalButtonTapped()
-        
+        calculator.equalButtonTapped()
+
         // Then
         NotificationCenter.default.post(name: NSNotification.Name("presentAlertForCorrectExpression"), object: nil)
         waitForExpectations(timeout: 0.1, handler: nil)
     }
-    
+
     func testAddNumberWhenExpressionHasResult() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 + 5 = 14"
-        
+        let calculator = Calculator()
+        calculator.printedString = "9 + 5 = 14"
+
         // When
-        countOnMe.equalButtonTapped()
-        
+        calculator.equalButtonTapped()
+
         // Then
-        countOnMe.printedString = " = "
+        calculator.printedString = " = "
     }
-    
+
     func testMultiplyButtonTappedAlert() {
         // Given
-        let countOnMe = CountOnMe()
-        countOnMe.printedString = "9 + "
+        let calculator = Calculator()
+        calculator.printedString = "9 + "
         expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForElementNumber"), object: nil, handler: nil)
-        
+
         // When
-        countOnMe.multiplyButtonTapped()
-        
+        calculator.multiplyButtonTapped()
+
         // Then
         NotificationCenter.default.post(name: NSNotification.Name("presentAlertForElementNumber"), object: nil)
         waitForExpectations(timeout: 0.1, handler: nil)

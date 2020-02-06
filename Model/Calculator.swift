@@ -11,7 +11,7 @@ import Foundation
 class Calculator {
     // MARK: Properties
     var printedString: String = "1 + 1 = 2"
-
+    
     var elements: [String] {
         return printedString.split(separator: " ").map { "\($0)" }
     }
@@ -90,21 +90,20 @@ class Calculator {
             sendNotification(name: .receivedDataFromCountOnMe)
         }
     }
-
+    
     func sendNotification(name: Notification.Name) {
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
     }
-
+    
     
     func addNumber(_ numberText: String) {
         guard expressionHaveResult else { return }
-        
         printedString = ""
         printedString.append(numberText)
         sendNotification(name:.receivedDataFromCountOnMe)
     }
-
+    
     // MARK: Functions for when the operands buttons are tapped on the calculator
     func plusButtonTapped() {
         guard canAddOperator else {
@@ -114,7 +113,7 @@ class Calculator {
         printedString.append(" + ")
         sendNotification(name: .receivedDataFromCountOnMe)
     }
-
+    
     func minusButtonTapped() {
         guard canAddOperator else {
             sendNotification(name: .presentAlert)
@@ -130,8 +129,8 @@ class Calculator {
             sendNotification(name: .presentAlert)
             return
         }
-            printedString.append(" x ")
-            sendNotification(name: .receivedDataFromCountOnMe)
+        printedString.append(" x ")
+        sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func divideButtonTapped() {
@@ -140,7 +139,7 @@ class Calculator {
             return
         }
         printedString.append(" ÷ ")
-            sendNotification(name: .receivedDataFromCountOnMe)
+        sendNotification(name: .receivedDataFromCountOnMe)
         
     }
     
@@ -150,11 +149,11 @@ class Calculator {
             sendNotification(name: .presentAlert)
             return
         }
-            printedString = "0"
-            sendNotification(name: .receivedDataFromCountOnMe)
-            printedString = ""
+        printedString = "0"
+        sendNotification(name: .receivedDataFromCountOnMe)
+        printedString = ""
     }
-
+    
     func equalButtonTapped() {
         guard expressionIsCorrect else {
             return sendNotification(name: .presentAlertForCorrectExpression)
