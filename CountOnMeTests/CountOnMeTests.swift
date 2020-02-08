@@ -49,13 +49,13 @@ class CountOnMeTests: XCTestCase {
     func testReduceMutltiply() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 x 8"
+        calculator.printedString = "9 × 8"
 
         // When
         calculator.reduce()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "9 x 8 = 72")
+        XCTAssertEqual(calculator.printedString, "9 × 8 = 72")
     }
 
     func testReduceDivision() {
@@ -138,7 +138,7 @@ class CountOnMeTests: XCTestCase {
         calculator.multiplyButtonTapped()
 
         // Then
-        XCTAssertEqual(calculator.printedString, " x ")
+        XCTAssertEqual(calculator.printedString, " × ")
     }
 
     func testDivideButton() {

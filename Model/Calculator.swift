@@ -76,9 +76,9 @@ class Calculator {
             switch operand {
             case "+": result = leftValue + rightValue
             case "-": result = leftValue - rightValue
-            case "x": result = leftValue * rightValue
+            case "×": result = leftValue * rightValue
             case "÷": result = leftValue / rightValue
-            default: fatalError("Unknown operator !")
+            default: fatalError(CalculatorError.unknowOperator.localizedDescription)
             }
             
             do { try divisionError(leftValue, by: rightValue) }
@@ -98,8 +98,9 @@ class Calculator {
     
     
     func addNumber(_ numberText: String) {
-        guard expressionHaveResult else { return }
-        printedString = ""
+        if expressionHaveResult {
+            printedString = ""
+        }
         printedString.append(numberText)
         sendNotification(name:.receivedDataFromCountOnMe)
     }
@@ -129,7 +130,7 @@ class Calculator {
             sendNotification(name: .presentAlert)
             return
         }
-        printedString.append(" x ")
+        printedString.append(" × ")
         sendNotification(name: .receivedDataFromCountOnMe)
     }
     
@@ -140,7 +141,6 @@ class Calculator {
         }
         printedString.append(" ÷ ")
         sendNotification(name: .receivedDataFromCountOnMe)
-        
     }
     
     func acButtonTapped() {

@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
 
-    let countOnMe = Calculator()
+    let calculator = Calculator()
     
     // View Life cycles
     override func viewDidLoad() {
@@ -29,38 +29,38 @@ class ViewController: UIViewController {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
-        countOnMe.addNumber(numberText)
+        calculator.addNumber(numberText)
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        countOnMe.plusButtonTapped()
+        calculator.plusButtonTapped()
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        countOnMe.minusButtonTapped()
+        calculator.minusButtonTapped()
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        countOnMe.equalButtonTapped()
-        countOnMe.reduce()        
+        calculator.equalButtonTapped()
+        calculator.reduce()        
     }
     
     @IBAction func tappedMultiplyButton(_ sender: UIButton) {
-        countOnMe.multiplyButtonTapped()
+        calculator.multiplyButtonTapped()
     }
     
     @IBAction func tappedDivideButton(_ sender: UIButton) {
-        countOnMe.divideButtonTapped()
+        calculator.divideButtonTapped()
     }
     
     @IBAction func tappedACButton(_ sender: UIButton) {
-        countOnMe.acButtonTapped()
+        calculator.acButtonTapped()
     }
     
     // MARK: - @obj functions and other methods to present alerts to the user
 
     @objc func receiveDataFromCountOnMe() {
-        textView.text = countOnMe.printedString
+        textView.text = calculator.printedString
     }
 
     private func presentSimpleAlert(title: String, message: String) {
