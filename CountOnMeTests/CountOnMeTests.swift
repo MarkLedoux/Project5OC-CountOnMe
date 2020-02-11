@@ -114,7 +114,7 @@ class CountOnMeTests: XCTestCase {
         calculator.minusButtonTapped()
 
         // Then
-        XCTAssertEqual(calculator.printedString, " - ")
+        XCTAssertEqual(calculator.printedString, "")
     }
 
     func testPlusButton() {
@@ -126,7 +126,7 @@ class CountOnMeTests: XCTestCase {
         calculator.plusButtonTapped()
 
         // Then
-        XCTAssertEqual(calculator.printedString, " + ")
+        XCTAssertEqual(calculator.printedString, "")
     }
 
     func testMultiplyButton() {
@@ -138,7 +138,7 @@ class CountOnMeTests: XCTestCase {
         calculator.multiplyButtonTapped()
 
         // Then
-        XCTAssertEqual(calculator.printedString, " × ")
+        XCTAssertEqual(calculator.printedString, "")
     }
 
     func testDivideButton() {
@@ -151,7 +151,7 @@ class CountOnMeTests: XCTestCase {
 
         // Then
 
-        XCTAssertEqual(calculator.printedString, " ÷ ")
+        XCTAssertEqual(calculator.printedString, "")
     }
 
     func testEqualButton() {

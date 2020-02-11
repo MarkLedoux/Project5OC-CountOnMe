@@ -8,23 +8,24 @@
 
 import Foundation
 
-// Enum with the cases of errors handled in the app
+/// Enum with the cases of errors handled in the app
 enum CalculatorError: Error {
     case zeroDivisor
     case missingElement
-    case unknowOperator
+    case unknownOperator
 }
 
-// Extension explaining what the program needs to return depending on the error return by the program
+
 extension CalculatorError: LocalizedError {
+    /// Extension explaining what the program needs to return depending on the error return by the program
     public var errorDescription: String? {
         switch self {
         case .zeroDivisor:
             return NSLocalizedString("Not a number", comment: "")
         case .missingElement:
             return NSLocalizedString("Element missing", comment: "")
-        case .unknowOperator:
-            return NSLocalizedString("Unknow operator!", comment: "")
+        case .unknownOperator:
+            return NSLocalizedString("Unknown operator!", comment: "")
         }
     }
 }

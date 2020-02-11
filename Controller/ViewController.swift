@@ -17,10 +17,30 @@ class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        let name = Notification.Name(rawValue: "receivedDataFromCountOnMe")
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(receiveDataFromCountOnMe), name: name, object: nil )
+        setupObservers()
+    }
+    
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receiveDataFromCountOnMe),
+            name: .receivedDataFromCountOnMe,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(presentAlertForCorrectExpression),
+            name: .presentAlertForCorrectExpression,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(presentAlertForElementNumber),
+            name: .presentAlertForElementNumber,
+            object: nil
+        )
     }
     
     // MARK: Actions
@@ -70,15 +90,15 @@ class ViewController: UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    private func presentAlertForAdditionSubstraction() {
+    @objc private func presentAlertForAdditionSubstraction() {
         presentSimpleAlert(title: "Zéro", message: "Un operateur est déja mis !")
     }
 
-    private func presentAlertForCorrectExpression() {
+    @objc private func presentAlertForCorrectExpression() {
          presentSimpleAlert(title: "Zéro", message: "Entrez une expression correcte !")
     }
 
-    private func presentAlertForElementNumber() {
+    @objc private func presentAlertForElementNumber() {
          presentSimpleAlert(title: "Zéro", message: "Démarrez un nouveau calcul !")
     }
 }

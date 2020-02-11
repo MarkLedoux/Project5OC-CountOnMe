@@ -16,7 +16,7 @@ enum Operand: CaseIterable {
         case .plus: "+"
         case .divide: "÷"
         case .minus: "-"
-        case .multiply: "x"
+        case .multiply: "×"
         }
     }
 }

@@ -18,7 +18,7 @@ class Calculator {
     
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return (elements.last != "+" && elements.last != "-") || (elements.last != "x" && elements.last != "÷")
+        return !isLastElementOperator
     }
     
     var expressionHaveEnoughElement: Bool {
@@ -26,7 +26,11 @@ class Calculator {
     }
     
     var canAddOperator: Bool {
-        return (elements.last != "+" && elements.last != "-") || (elements.last != "x" && elements.last != "÷")
+        return !isLastElementOperator && printedString.count > 0
+    }
+    
+    var isLastElementOperator: Bool {
+        return elements.last == "+" || elements.last == "-" || elements.last == "×" || elements.last == "÷"
     }
     
     var expressionHaveResult: Bool {
@@ -50,7 +54,7 @@ class Calculator {
             }
             do { try unknownOperator() }
             catch {
-                printedString = CalculatorError.unknowOperator.localizedDescription
+                printedString = CalculatorError.unknownOperator.localizedDescription
                 return
             }
             
@@ -78,7 +82,7 @@ class Calculator {
             case "-": result = leftValue - rightValue
             case "×": result = leftValue * rightValue
             case "÷": result = leftValue / rightValue
-            default: fatalError(CalculatorError.unknowOperator.localizedDescription)
+            default: fatalError(CalculatorError.unknownOperator.localizedDescription)
             }
             
             do { try divisionError(leftValue, by: rightValue) }
@@ -107,51 +111,42 @@ class Calculator {
     
     // MARK: Functions for when the operands buttons are tapped on the calculator
     func plusButtonTapped() {
-        guard canAddOperator else {
-            sendNotification(name: .presentAlert)
-            return
-        }
+        operandButtonTapped()
         printedString.append(" + ")
         sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func minusButtonTapped() {
-        guard canAddOperator else {
-            sendNotification(name: .presentAlert)
-            return
-        }
+        operandButtonTapped()
         
         printedString.append(" - ")
         sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func multiplyButtonTapped() {
-        guard canAddOperator else {
-            sendNotification(name: .presentAlert)
-            return
-        }
+        operandButtonTapped()
         printedString.append(" × ")
         sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func divideButtonTapped() {
-        guard canAddOperator else {
-            sendNotification(name: .presentAlert)
-            return
-        }
+       operandButtonTapped()
         printedString.append(" ÷ ")
         sendNotification(name: .receivedDataFromCountOnMe)
     }
     
     func acButtonTapped() {
         // when the button is tapped so it sends data to the controller
+        printedString = "0"
+        sendNotification(name: .receivedDataFromCountOnMe)
+        printedString = ""
+    }
+    
+    func operandButtonTapped() {
         guard canAddOperator else {
             sendNotification(name: .presentAlert)
             return
         }
-        printedString = "0"
-        sendNotification(name: .receivedDataFromCountOnMe)
-        printedString = ""
     }
     
     func equalButtonTapped() {
@@ -176,8 +171,8 @@ class Calculator {
     }
     
     func unknownOperator() throws {
-        if elements.contains("+") || elements.contains("x") || elements.contains("÷") || elements.contains("-") {
-            throw CalculatorError.unknowOperator
+        if !(elements.contains("+") || elements.contains("×") || elements.contains("÷") || elements.contains("-")) {
+            throw CalculatorError.unknownOperator
         }
     }
 }
