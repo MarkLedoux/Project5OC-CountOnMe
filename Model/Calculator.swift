@@ -8,52 +8,117 @@
 
 import Foundation
 
+protocol ArithmeticElement {
+}
+
+extension Int: ArithmeticElement {
+}
+
 class Calculator {
+    
+    // MARK: - Internal
+    
     // MARK: Properties
+    
     var printedString: String = "1 + 1 = 2"
     
-    var elements: [String] {
+    // MARK: Methods
+    
+    func addNumber(_ numberText: String) {
+        if expressionHaveResult {
+            printedString = ""
+        }
+        printedString.append(numberText)
+        sendNotification(name:.receivedDataFromCountOnMe)
+    }
+    
+    func add(operand: String) {
+        checkCanAddOperator()
+        checkExtraOperand()
+        printedString.append(operand)
+        sendNotification(name: .receivedDataFromCountOnMe)
+    }
+    
+    func reset() {
+        // when the button is tapped so it sends data to the controller
+        printedString = "0"
+        sendNotification(name: .receivedDataFromCountOnMe)
+        printedString = ""
+    }
+    
+    func resolveEquation() {
+        guard expressionIsCorrect else {
+            return sendNotification(name: .presentAlertForCorrectExpression)
+        }
+        
+        guard expressionHaveEnoughElement else {
+            return sendNotification(name: .presentAlertForElementNumber)
+        }
+        
+        reduce()
+    }
+    
+    
+    
+    
+    // MARK: - Private
+    
+    // MARK: Properties
+    
+    private var elements: [String] {
         return printedString.split(separator: " ").map { "\($0)" }
     }
     
     // Error check computed variables
-    var expressionIsCorrect: Bool {
+    private var expressionIsCorrect: Bool {
         return !isLastElementOperator
     }
     
-    var expressionHaveEnoughElement: Bool {
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
     
-    var canAddOperator: Bool {
+    private var canAddOperator: Bool {
         return !isLastElementOperator && printedString.count > 0
     }
     
-    var isLastElementOperator: Bool {
-        return elements.last == "+" || elements.last == "-" || elements.last == "×" || elements.last == "÷"
+    private var isLastElementOperator: Bool {
+        guard let lastElement = elements.last else { return false }
+        return operands.contains(lastElement)
     }
     
-    var expressionHaveResult: Bool {
+    private var expressionHaveResult: Bool {
         return printedString.firstIndex(of: "=") != nil
     }
     
-    // MARK: Functions
-    func reduce() {
+    private var operands: [String] { ["+", "-", "×", "÷"] }
+    
+    private var isElementsContainingOperators: Bool {
+        for operand in operands where elements.contains(operand) {
+            return true
+        }
+        
+        return false
+    }
+    
+    // MARK: Methods - Private
+    
+    private func reduce() {
         
         // Create local copy of operations
         var operationsToReduce = elements
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            do { try elementMissing() }
-            catch {
+            
+            guard expressionHaveEnoughElement else {
                 printedString = CalculatorError.missingElement.localizedDescription
                 sendNotification(name: .receivedDataFromCountOnMe)
                 printedString = ""
                 return
             }
-            do { try unknownOperator() }
-            catch {
+            
+            guard isElementsContainingOperators else {
                 printedString = CalculatorError.unknownOperator.localizedDescription
                 return
             }
@@ -95,84 +160,48 @@ class Calculator {
         }
     }
     
-    func sendNotification(name: Notification.Name) {
-        let notification = Notification(name: name)
-        NotificationCenter.default.post(notification)
-    }
-    
-    
-    func addNumber(_ numberText: String) {
-        if expressionHaveResult {
-            printedString = ""
-        }
-        printedString.append(numberText)
-        sendNotification(name:.receivedDataFromCountOnMe)
-    }
-    
-    // MARK: Functions for when the operands buttons are tapped on the calculator
-    func plusButtonTapped() {
-        operandButtonTapped()
-        printedString.append(" + ")
-        sendNotification(name: .receivedDataFromCountOnMe)
-    }
-    
-    func minusButtonTapped() {
-        operandButtonTapped()
-        
-        printedString.append(" - ")
-        sendNotification(name: .receivedDataFromCountOnMe)
-    }
-    
-    func multiplyButtonTapped() {
-        operandButtonTapped()
-        printedString.append(" × ")
-        sendNotification(name: .receivedDataFromCountOnMe)
-    }
-    
-    func divideButtonTapped() {
-       operandButtonTapped()
-        printedString.append(" ÷ ")
-        sendNotification(name: .receivedDataFromCountOnMe)
-    }
-    
-    func acButtonTapped() {
-        // when the button is tapped so it sends data to the controller
-        printedString = "0"
-        sendNotification(name: .receivedDataFromCountOnMe)
-        printedString = ""
-    }
-    
-    func operandButtonTapped() {
+    private func checkCanAddOperator() {
         guard canAddOperator else {
             sendNotification(name: .presentAlert)
             return
         }
     }
     
-    func equalButtonTapped() {
-        guard expressionIsCorrect else {
-            return sendNotification(name: .presentAlertForCorrectExpression)
-        }
-        guard expressionHaveEnoughElement else {
-            return sendNotification(name: .presentAlertForElementNumber)
-        }
+    private func sendNotification(name: Notification.Name) {
+        let notification = Notification(name: name)
+        NotificationCenter.default.post(notification)
     }
     
-    func divisionError(_ left: Double, by right: Double) throws {
+    private func divisionError(_ left: Double, by right: Double) throws {
         guard right != 0 else {
             throw CalculatorError.zeroDivisor
         }
     }
     
-    func elementMissing() throws {
-        guard expressionHaveEnoughElement else {
-            throw CalculatorError.missingElement
-        }
-    }
     
-    func unknownOperator() throws {
-        if !(elements.contains("+") || elements.contains("×") || elements.contains("÷") || elements.contains("-")) {
-            throw CalculatorError.unknownOperator
+    /// check to see if an operand is contained within printedString and if true then remove the copy of the operand
+    private func checkExtraOperand() {
+        // TODO: fix problem that occurs since no range is defined when calling the function, need to check whether the operations to reduce is lower than 2
+        let operationForReduce = elements
+        
+        print(printedString)
+        
+        if isElementsContainingOperators {
+            guard operationForReduce.count < 3 else {
+                print("index is out of range")
+                return
+            }
+            guard let index = printedString.index(printedString.startIndex,offsetBy: 2, limitedBy: printedString.endIndex) else {
+                print("index is out of range")
+                return
+            }
+            guard let secondaryIndex = printedString.index(printedString.startIndex,offsetBy: 1, limitedBy: printedString.endIndex) else {
+                print("index is out of range")
+                return
+            }
+            printedString.remove(at: index)
+            printedString.remove(at: secondaryIndex)
+            printedString.remove(at: secondaryIndex)
         }
     }
 }

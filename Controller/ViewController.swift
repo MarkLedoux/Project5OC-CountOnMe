@@ -53,28 +53,27 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        calculator.plusButtonTapped()
+        calculator.add(operand: " + ")
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        calculator.minusButtonTapped()
-    }
-
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
-        calculator.equalButtonTapped()
-        calculator.reduce()        
+        calculator.add(operand: " - ")
     }
     
     @IBAction func tappedMultiplyButton(_ sender: UIButton) {
-        calculator.multiplyButtonTapped()
+        calculator.add(operand: " × ")
     }
     
     @IBAction func tappedDivideButton(_ sender: UIButton) {
-        calculator.divideButtonTapped()
+        calculator.add(operand: " ÷ ")
+    }
+    
+    @IBAction func tappedEqualButton(_ sender: UIButton) {
+        calculator.resolveEquation()
     }
     
     @IBAction func tappedACButton(_ sender: UIButton) {
-        calculator.acButtonTapped()
+        calculator.reset()
     }
     
     // MARK: - @obj functions and other methods to present alerts to the user
@@ -90,7 +89,7 @@ class ViewController: UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    @objc private func presentAlertForAdditionSubstraction() {
+    @objc private func presentAlertForOperand() {
         presentSimpleAlert(title: "Zéro", message: "Un operateur est déja mis !")
     }
 

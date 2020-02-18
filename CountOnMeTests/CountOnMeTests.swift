@@ -26,7 +26,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "2 + 2"
         
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
         
         // Then
         XCTAssertEqual(calculator.printedString , "2 + 2 = 4")
@@ -40,7 +40,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 - 8"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "9 - 8 = 1")
@@ -52,7 +52,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 × 8"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "9 × 8 = 72")
@@ -64,7 +64,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 ÷ 4"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "9 ÷ 4 = 2.25")
@@ -75,7 +75,7 @@ class CountOnMeTests: XCTestCase {
         let calculator = Calculator()
 
         // When
-        calculator.acButtonTapped()
+        calculator.reset()
 
         // Then
         XCTAssertEqual(calculator.printedString, "")
@@ -87,7 +87,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "5 ÷ 0"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Not a number = inf")
@@ -99,7 +99,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "5 + "
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "")
@@ -111,10 +111,10 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.minusButtonTapped()
+        calculator.add(operand: " - ")
 
         // Then
-        XCTAssertEqual(calculator.printedString, "")
+        XCTAssertEqual(calculator.printedString, " - ")
     }
 
     func testPlusButton() {
@@ -123,10 +123,10 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.plusButtonTapped()
+        calculator.add(operand: " + ")
 
         // Then
-        XCTAssertEqual(calculator.printedString, "")
+        XCTAssertEqual(calculator.printedString, " + ")
     }
 
     func testMultiplyButton() {
@@ -135,10 +135,10 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.multiplyButtonTapped()
+        calculator.add(operand: " × ")
 
         // Then
-        XCTAssertEqual(calculator.printedString, "")
+        XCTAssertEqual(calculator.printedString, " × ")
     }
 
     func testDivideButton() {
@@ -147,11 +147,11 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.divideButtonTapped()
+        calculator.add(operand: " ÷ ")
 
         // Then
 
-        XCTAssertEqual(calculator.printedString, "")
+        XCTAssertEqual(calculator.printedString, " ÷ ")
     }
 
     func testEqualButton() {
@@ -160,7 +160,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.equalButtonTapped()
+        calculator.resolveEquation()
 
         // Then
 
@@ -185,7 +185,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "a + 9"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Left operator not valid")
@@ -197,7 +197,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 + a"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Right operator not valid")
@@ -209,7 +209,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 a 9"
 
         // When
-        calculator.reduce()
+        calculator.resolveEquation()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Unknown operator!")
@@ -222,7 +222,7 @@ class CountOnMeTests: XCTestCase {
         expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForCorrectExpression"), object: nil, handler: nil)
 
         // When
-        calculator.equalButtonTapped()
+        calculator.resolveEquation()
 
         // Then
         NotificationCenter.default.post(name: NSNotification.Name("presentAlertForCorrectExpression"), object: nil)
@@ -235,7 +235,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 + 5 = 14"
 
         // When
-        calculator.equalButtonTapped()
+        calculator.resolveEquation()
 
         // Then
         calculator.printedString = " = "
@@ -248,10 +248,95 @@ class CountOnMeTests: XCTestCase {
         expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForElementNumber"), object: nil, handler: nil)
 
         // When
-        calculator.multiplyButtonTapped()
+        calculator.add(operand: " × ")
 
         // Then
         NotificationCenter.default.post(name: NSNotification.Name("presentAlertForElementNumber"), object: nil)
         waitForExpectations(timeout: 0.1, handler: nil)
     }
+    
+    func testRightOperator() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "5 + -"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "Right operator not valid")
+    }
+    
+    func testLeftOperator() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "- + 5"
+        
+        // When
+        calculator.resolveEquation()
+        
+        //Then
+        XCTAssertEqual(calculator.printedString, "Left operator not valid")
+    }
+    
+    func testOperandButtonAddition() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "5 + "
+        
+        // When
+        calculator.add(operand: " + ")
+        
+        // Then
+        XCTAssertEqual(calculator.printedString, "5 + ")
+    }
+    
+    func testOperandButtonSubstraction() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "5 + "
+        
+        // When
+        calculator.add(operand: " - ")
+        
+        // Then
+        XCTAssertEqual(calculator.printedString, "5 - ")
+    }
+    
+    func testOperandButtonDivision() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "5 + "
+        
+        // When
+        calculator.add(operand: " ÷ ")
+        
+        // Then
+        XCTAssertEqual(calculator.printedString, "5 ÷ ")
+    }
+    
+    func testOperandButtonMultiplication() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "5 + "
+        
+        // When
+        calculator.add(operand: " × ")
+        
+        // Then
+        XCTAssertEqual(calculator.printedString, "5 × ")
+    }
+    
+    func testExpressionHasResult() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 × 9 = 81"
+        
+        // When
+        calculator.addNumber("9")
+        
+        // Then
+        XCTAssertEqual(calculator.printedString, "9")
+    }
+    
 }

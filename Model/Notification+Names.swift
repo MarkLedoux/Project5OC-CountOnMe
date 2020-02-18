@@ -13,4 +13,5 @@ extension Notification.Name {
     static let presentAlert = Notification.Name("presentAlert")
     static let presentAlertForCorrectExpression = Notification.Name("presentAlertForCorrectExpression")
     static let presentAlertForElementNumber = Notification.Name("presentAlertForElementNumber")
+    static let presentAlertForOperand = Notification.Name("presentAlertForOperand")
 }
