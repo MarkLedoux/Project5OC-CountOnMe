@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Operand: CaseIterable, ArithmeticElement {
+enum Operand: CaseIterable, ArithmeticElement { 
     case plus, minus, multiply, divide
     
     func asString() {

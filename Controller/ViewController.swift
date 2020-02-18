@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         calculator.add(operand: " + ")
     }
     
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
+    @IBAction func tappedSubstractionButton(_ sender: UIButton) { 
         calculator.add(operand: " - ")
     }
     
