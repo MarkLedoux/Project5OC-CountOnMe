@@ -277,7 +277,7 @@ class CountOnMeTests: XCTestCase {
         
         //Then
         XCTAssertEqual(calculator.printedString, "Left operator not valid")
-    }
+    } 
     
     func testOperandButtonAddition() {
         // Given

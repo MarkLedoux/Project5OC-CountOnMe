@@ -30,7 +30,7 @@ class Calculator {
         }
         printedString.append(numberText)
         sendNotification(name:.receivedDataFromCountOnMe)
-    }
+    } 
     
     func add(operand: String) {
         checkCanAddOperator()
