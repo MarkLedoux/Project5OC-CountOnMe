@@ -14,7 +14,11 @@ class Calculator {
     
     // MARK: Properties
     
-    var printedString: String = "1 + 1 = 2"
+    var printedString: String = "1 + 1 = 2"  {
+        didSet {
+            sendNotification(name: .receivedDataFromCountOnMe)
+        }
+    }
     
     // MARK: Methods
     /// check if the previous operation properly returned a result and if it did, setting printedString to have nothing before appending a new number which will then show up on the view
@@ -23,20 +27,16 @@ class Calculator {
             printedString = ""
         }
         printedString.append(numberText)
-        sendNotification(name:.receivedDataFromCountOnMe)
     } 
     /// check that the printedString doesn't contain operators for its last elements before seeing is it already contains operators and if it doesn't add a new operator to printedString
     func add(operators: String) {
         checkCanAddOperator()
         checkExtraOperator()
         printedString.append(operators)
-        sendNotification(name: .receivedDataFromCountOnMe)
     }
     /// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
         func reset() {
         printedString = "0"
-        sendNotification(name: .receivedDataFromCountOnMe)
-        printedString = ""
     }
     /// pressring the equal button triggers this function, checking that the expression countains all the necessay elements
     func resolveEquation() {
@@ -99,18 +99,8 @@ class Calculator {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            // handling possible errors in case the expression processed doesn't contain all the necessary elements 
-            guard expressionHaveEnoughElement else {
-                printedString = CalculatorError.missingElement.localizedDescription
-                sendNotification(name: .receivedDataFromCountOnMe)
-                printedString = ""
-                return
-            }
-            
-            guard isElementsContainingOperators else {
-                printedString = CalculatorError.unknownOperator.localizedDescription
-                return
-            }
+            do { try checkEquationValidity() }
+            catch { return }
             
             let left = operationsToReduce[0]
             let operand = operationsToReduce[1]
@@ -119,34 +109,58 @@ class Calculator {
             
             guard let leftValue = Double(left) else {
                 printedString = "Left operator not valid"
-                sendNotification(name: .receivedDataFromCountOnMe)
+                return
+            }
+            
+            guard operators.contains(operand) else {
+                printedString = "Unknown operator!"
                 return
             }
             
             guard let rightValue = Double(right) else {
                 printedString = "Right operator not valid"
-                sendNotification(name: .receivedDataFromCountOnMe)
                 return
             }
-            
             
             let result: Double
             switch operand {
             case "+": result = leftValue + rightValue
             case "-": result = leftValue - rightValue
             case "×": result = leftValue * rightValue
-            case "÷": result = leftValue / rightValue
+            case "÷":
+                do { try verifyDivisionError(leftValue, by: rightValue) }
+                catch {
+                    printedString = CalculatorError.zeroDivisor.localizedDescription
+                    return
+                }
+                result = leftValue / rightValue
             default: fatalError(CalculatorError.unknownOperator.localizedDescription)
             }
+            cleanEquation(operationsToReduce: &operationsToReduce, result: result)
             
-            do { try divisionError(leftValue, by: rightValue) }
-            catch { printedString = CalculatorError.zeroDivisor.localizedDescription }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result.clean)", at: 0)
-            printedString.append(" = \(operationsToReduce.first!)")
-            sendNotification(name: .receivedDataFromCountOnMe)
         }
+    }
+    
+    private func checkEquationValidity() throws {
+        // handling possible errors in case the expression processed doesn't contain all the necessary elements
+        guard expressionHaveEnoughElement else {
+            printedString = CalculatorError.missingElement.localizedDescription
+            return
+        }
+        
+        guard isElementsContainingOperators else {
+            printedString = CalculatorError.unknownOperator.localizedDescription
+            return
+        }
+    }
+    
+    private func cleanEquation(operationsToReduce: inout [String], result: Double) {
+        operationsToReduce = Array(operationsToReduce.dropFirst(3))
+        operationsToReduce.insert("\(result.clean)", at: 0)
+        guard let resultToPrint = operationsToReduce.first else {
+            return
+        }
+        printedString = resultToPrint
     }
     
     private func checkCanAddOperator() {
@@ -161,7 +175,7 @@ class Calculator {
         NotificationCenter.default.post(notification)
     }
     
-    private func divisionError(_ left: Double, by right: Double) throws {
+    private func verifyDivisionError(_ left: Double, by right: Double) throws {
         guard right != 0 else {
             throw CalculatorError.zeroDivisor
         }

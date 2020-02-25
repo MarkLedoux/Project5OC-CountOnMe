@@ -29,7 +29,7 @@ class CountOnMeTests: XCTestCase {
         calculator.resolveEquation()
         
         // Then
-        XCTAssertEqual(calculator.printedString , "2 + 2 = 4")
+        XCTAssertEqual(calculator.printedString , "4")
         
     }
     
@@ -43,7 +43,7 @@ class CountOnMeTests: XCTestCase {
         calculator.resolveEquation()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "9 - 8 = 1")
+        XCTAssertEqual(calculator.printedString, "1")
     }
 
     func testReduceMutltiply() {
@@ -55,7 +55,7 @@ class CountOnMeTests: XCTestCase {
         calculator.resolveEquation()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "9 × 8 = 72")
+        XCTAssertEqual(calculator.printedString, "72")
     }
 
     func testReduceDivision() {
@@ -67,7 +67,7 @@ class CountOnMeTests: XCTestCase {
         calculator.resolveEquation()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "9 ÷ 4 = 2.25")
+        XCTAssertEqual(calculator.printedString, "2.25")
     }
 
     func testACButton() {
@@ -78,7 +78,7 @@ class CountOnMeTests: XCTestCase {
         calculator.reset()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "")
+        XCTAssertEqual(calculator.printedString, "0")
     }
 
     func testReduceDivisionByZero() {
@@ -90,7 +90,7 @@ class CountOnMeTests: XCTestCase {
         calculator.resolveEquation()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "Not a number = inf")
+        XCTAssertEqual(calculator.printedString, "Not a number")
     }
 
     func testMinusButton() {
@@ -338,7 +338,19 @@ class CountOnMeTests: XCTestCase {
         calculator.resolveEquation()
         
         // Then
-        XCTAssertEqual(calculator.printedString, "9 + 5 × 9 = 54")
+        XCTAssertEqual(calculator.printedString, "54")
+    }
+    
+    func testPriorityForDivision() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 + 9 ÷ 3"
+        
+        // When
+        calculator.resolveEquation()
+        
+        // Then
+        XCTAssertEqual(calculator.printedString, "12")
     }
     
 }
