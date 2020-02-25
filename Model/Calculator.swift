@@ -8,12 +8,6 @@
 
 import Foundation
 
-protocol ArithmeticElement {
-}
-
-extension Int: ArithmeticElement {
-}
-
 class Calculator {
     
     // MARK: - Internal
@@ -23,7 +17,7 @@ class Calculator {
     var printedString: String = "1 + 1 = 2"
     
     // MARK: Methods
-    
+    /// check if the previous operation properly returned a result and if it did, setting printedString to have nothing before appending a new number which will then show up on the view
     func addNumber(_ numberText: String) {
         if expressionHaveResult {
             printedString = ""
@@ -31,21 +25,20 @@ class Calculator {
         printedString.append(numberText)
         sendNotification(name:.receivedDataFromCountOnMe)
     } 
-    
-    func add(operand: String) {
+    /// check that the printedString doesn't contain operators for its last elements before seeing is it already contains operators and if it doesn't add a new operator to printedString
+    func add(operators: String) {
         checkCanAddOperator()
-        checkExtraOperand()
-        printedString.append(operand)
+        checkExtraOperator()
+        printedString.append(operators)
         sendNotification(name: .receivedDataFromCountOnMe)
     }
-    
-    func reset() {
-        // when the button is tapped so it sends data to the controller
+    /// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
+        func reset() {
         printedString = "0"
         sendNotification(name: .receivedDataFromCountOnMe)
         printedString = ""
     }
-    
+    /// pressring the equal button triggers this function, checking that the expression countains all the necessay elements
     func resolveEquation() {
         guard expressionIsCorrect else {
             return sendNotification(name: .presentAlertForCorrectExpression)
@@ -54,55 +47,51 @@ class Calculator {
         guard expressionHaveEnoughElement else {
             return sendNotification(name: .presentAlertForElementNumber)
         }
-        
         reduce()
     }
-    
-    
-    
     
     // MARK: - Private
     
     // MARK: Properties
-    
+    /// separating all the elements of printedString so they can be used individually throughout the code
     private var elements: [String] {
         return printedString.split(separator: " ").map { "\($0)" }
     }
     
-    // Error check computed variables
+    /// making sure that when an operation is made, printedString final element isn't an operator and returns a bool if it is the case
     private var expressionIsCorrect: Bool {
         return !isLastElementOperator
     }
-    
+    /// making sure that the elements composing printedString are always above or equal to 3
     private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
-    
+    /// check that the final element isn't an operator and that the number of elements in printedString is superior to 0, returns true if the condition are met
     private var canAddOperator: Bool {
         return !isLastElementOperator && printedString.count > 0
     }
-    
+    /// returns a boolean after checking is the last element in elements is an operator
     private var isLastElementOperator: Bool {
         guard let lastElement = elements.last else { return false }
-        return operands.contains(lastElement)
+        return operators.contains(lastElement)
     }
-    
+    /// check if the previous expression was processed successfully
     private var expressionHaveResult: Bool {
         return printedString.firstIndex(of: "=") != nil
     }
-    
-    private var operands: [String] { ["+", "-", "×", "÷"] }
-    
+    /// array of all the 4 operators which can be used in the application
+    private var operators: [String] { ["+", "-", "×", "÷"] }
+     
     private var isElementsContainingOperators: Bool {
-        for operand in operands where elements.contains(operand) {
+        /// loop through the array of operators and see for each case if the operators are contained in the array of not and returning a boolean once an answer is reached
+        for operand in operators where elements.contains(operand) {
             return true
         }
-        
         return false
     }
     
     // MARK: Methods - Private
-    
+    /// processing all the elements contained in printedString to return a result
     private func reduce() {
         
         // Create local copy of operations
@@ -110,7 +99,7 @@ class Calculator {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            
+            // handling possible errors in case the expression processed doesn't contain all the necessary elements 
             guard expressionHaveEnoughElement else {
                 printedString = CalculatorError.missingElement.localizedDescription
                 sendNotification(name: .receivedDataFromCountOnMe)
@@ -180,7 +169,7 @@ class Calculator {
     
     
     /// check to see if an operand is contained within printedString and if true then remove the copy of the operand
-    private func checkExtraOperand() {
+    private func checkExtraOperator() {
         // TODO: fix problem that occurs since no range is defined when calling the function, need to check whether the operations to reduce is lower than 2
         let operationForReduce = elements
         

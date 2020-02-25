@@ -41,6 +41,12 @@ class ViewController: UIViewController {
             name: .presentAlertForElementNumber,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(presentAlert),
+            name: .presentAlert,
+            object: nil)
     }
     
     // MARK: Actions
@@ -53,19 +59,19 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        calculator.add(operand: " + ")
+        calculator.add(operators: " + ")
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) { 
-        calculator.add(operand: " - ")
+        calculator.add(operators: " - ")
     }
     
     @IBAction func tappedMultiplyButton(_ sender: UIButton) {
-        calculator.add(operand: " × ")
+        calculator.add(operators: " × ")
     }
     
     @IBAction func tappedDivideButton(_ sender: UIButton) {
-        calculator.add(operand: " ÷ ")
+        calculator.add(operators: " ÷ ")
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
@@ -88,10 +94,6 @@ class ViewController: UIViewController {
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertVC, animated: true, completion: nil)
     }
-    
-    @objc private func presentAlertForOperand() {
-        presentSimpleAlert(title: "Zéro", message: "Un operateur est déja mis !")
-    }
 
     @objc private func presentAlertForCorrectExpression() {
          presentSimpleAlert(title: "Zéro", message: "Entrez une expression correcte !")
@@ -99,5 +101,9 @@ class ViewController: UIViewController {
 
     @objc private func presentAlertForElementNumber() {
          presentSimpleAlert(title: "Zéro", message: "Démarrez un nouveau calcul !")
+    }
+    
+    @objc private func presentAlert() {
+        presentSimpleAlert(title: "Zéro", message: "Cette opération ne peut pas être effectuée")
     }
 }
