@@ -18,24 +18,22 @@ class CountOnMeTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
+
     func test_ReduceAddition() {
-        
         // Given
         let calculator = Calculator()
         calculator.printedString = "2 + 2"
-        
+
         // When
         calculator.resolveEquation()
-        
-        // Then
-        XCTAssertEqual(calculator.printedString , "4")
-        
-    }
-    
-    func testReduceSubstraction()  {
-        // Given
 
+        // Then
+        XCTAssertEqual(calculator.printedString, "4")
+
+    }
+
+    func testReduceSubstraction() {
+        // Given
         let calculator = Calculator()
         calculator.printedString = "9 - 8"
 
@@ -207,7 +205,9 @@ class CountOnMeTests: XCTestCase {
         // Given
         let calculator = Calculator()
         calculator.printedString = "9 + "
-        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForCorrectExpression"), object: nil, handler: nil)
+        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForCorrectExpression"),
+                    object: nil,
+                    handler: nil)
 
         // When
         calculator.resolveEquation()
@@ -233,7 +233,9 @@ class CountOnMeTests: XCTestCase {
         // Given
         let calculator = Calculator()
         calculator.printedString = "9 + "
-        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForElementNumber"), object: nil, handler: nil)
+        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForElementNumber"),
+                object: nil,
+                handler: nil)
 
         // When
         calculator.add(operators: " × ")
@@ -242,7 +244,7 @@ class CountOnMeTests: XCTestCase {
         NotificationCenter.default.post(name: NSNotification.Name("presentAlertForElementNumber"), object: nil)
         waitForExpectations(timeout: 0.1, handler: nil)
     }
-    
+
     func testRightOperator() {
         // Given
         let calculator = Calculator()
@@ -256,101 +258,101 @@ class CountOnMeTests: XCTestCase {
         NotificationCenter.default.post(name: NSNotification.Name("presentAlertForCorrectExpression"), object: nil)
         waitForExpectations(timeout: 0.1, handler: nil)
     }
-    
+
     func testLeftOperator() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "- + 5"
-        
+
         // When
         calculator.resolveEquation()
-        
+
         //Then
         XCTAssertEqual(calculator.printedString, "Left operator not valid")
-    } 
-    
+    }
+
     func testOperandButtonAddition() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "5 + "
-        
+
         // When
         calculator.add(operators: " + ")
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "5 + ")
     }
-    
+
     func testOperandButtonSubstraction() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "5 + "
-        
+
         // When
         calculator.add(operators: " - ")
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "5 - ")
     }
-    
+
     func testOperandButtonDivision() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "5 + "
-        
+
         // When
         calculator.add(operators: " ÷ ")
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "5 ÷ ")
     }
-    
+
     func testOperandButtonMultiplication() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "5 + "
-        
+
         // When
         calculator.add(operators: " × ")
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "5 × ")
     }
-    
+
     func testExpressionHasResult() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "9 × 9 = 81"
-        
+
         // When
         calculator.addNumber("9")
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "9")
     }
-    
+
     func testPriorityForMultiplication() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "9 + 5 × 9"
-        
+
         // When
         calculator.resolveEquation()
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "54")
     }
-    
+
     func testPriorityForDivision() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "9 + 9 ÷ 3"
-        
+
         // When
         calculator.resolveEquation()
-        
+
         // Then
         XCTAssertEqual(calculator.printedString, "12")
     }
-    
+
 }

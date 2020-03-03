@@ -9,56 +9,56 @@
 import Foundation
 
 class Calculator {
-    
+
     // MARK: - Internal
-    
+
     // MARK: Properties
-    
-    var printedString: String = "1 + 1 = 2"  {
+
+    var printedString: String = "1 + 1 = 2" {
         didSet {
             sendNotification(name: .receivedDataFromCountOnMe)
         }
     }
-    
+
     // MARK: Methods
-    /// check if the previous operation properly returned a result and if it did, setting printedString to have nothing before appending a new number which will then show up on the view
+    /// Set printedString to "" then add a number
     func addNumber(_ numberText: String) {
         if expressionHaveResult {
             printedString = ""
         }
         printedString.append(numberText)
-    } 
-    /// check that the printedString doesn't contain operators for its last elements before seeing is it already contains operators and if it doesn't add a new operator to printedString
+    }
+    /// contains operators or is last element operator?
     func add(operators: String) {
         checkCanAddOperator()
         checkExtraOperator()
         printedString.append(operators)
     }
     /// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
-        func reset() {
+    func reset() {
         printedString = "0"
     }
-    /// pressring the equal button triggers this function, checking that the expression countains all the necessay elements
+    /// is expression correct and has enough elements?
     func resolveEquation() {
         guard expressionIsCorrect else {
             return sendNotification(name: .presentAlertForCorrectExpression)
         }
-        
+
         guard expressionHaveEnoughElement else {
             return sendNotification(name: .presentAlertForElementNumber)
         }
         reduce()
     }
-    
+
     // MARK: - Private
-    
+
     // MARK: Properties
     /// separating all the elements of printedString so they can be used individually throughout the code
     private var elements: [String] {
         return printedString.split(separator: " ").map { "\($0)" }
     }
-    
-    /// making sure that when an operation is made, printedString final element isn't an operator and returns a bool if it is the case
+
+    /// is printedString final element an operator?
     private var expressionIsCorrect: Bool {
         return !isLastElementOperator
     }
@@ -66,7 +66,7 @@ class Calculator {
     private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
-    /// check that the final element isn't an operator and that the number of elements in printedString is superior to 0, returns true if the condition are met
+    /// Is  the last element an operator, is printedString > 0?
     private var canAddOperator: Bool {
         return !isLastElementOperator && printedString.count > 0
     }
@@ -80,125 +80,152 @@ class Calculator {
         return printedString.firstIndex(of: "=") != nil
     }
     /// array of all the 4 operators which can be used in the application
-    private var operators: [String] { ["+", "-", "×", "÷"] }
-     
+    private var operators = ["+", "-", "×", "÷"]
+
     private var isElementsContainingOperators: Bool {
-        /// loop through the array of operators and see for each case if the operators are contained in the array of not and returning a boolean once an answer is reached
+        /// Check if the operators are contained in the array of not
         for operand in operators where elements.contains(operand) {
             return true
         }
         return false
     }
-    
+
     // MARK: Methods - Private
+    /// operationsToReduce contains priority operator?
+    private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
+        operationsToReduce.contains { isPriorityOperator(mathOperator: $0) }
+    }
     /// processing all the elements contained in printedString to return a result
     private func reduce() {
-        
+        do { try checkEquationValidity() } catch { return }
+
         // Create local copy of operations
         var operationsToReduce = elements
-        
+        /// when looping in the array, the minimum value of the first index
+        var currentOperationUnitIndex = 0
+
         // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            do { try checkEquationValidity() }
-            catch { return }
-            
-            let left = operationsToReduce[0]
-            let operand = operationsToReduce[1]
-            let right = operationsToReduce[2]
-            
-            
+        while currentOperationUnitIndex < operationsToReduce.count {
+            /// Assigning operators a value of currentUnitIndex + 1
+            let mathOperator = operationsToReduce[currentOperationUnitIndex + 1]
+            /// Check if operationsToReduce still contains priority operators
+            let isFirstLoop = operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
+            /// Check for priority operator and first loop
+            guard isPriorityOperator(mathOperator: mathOperator) && isFirstLoop else {
+                currentOperationUnitIndex += 2
+                continue
+            }
+            /// Setting UnitIndex back to zero when not on first loop
+            if !isFirstLoop {
+                currentOperationUnitIndex = 0
+            }
+            ///Giving left and right UnitIndex value of 0 and 2
+            let left = operationsToReduce[currentOperationUnitIndex]
+            let right = operationsToReduce[currentOperationUnitIndex + 2]
+
             guard let leftValue = Double(left) else {
                 printedString = "Left operator not valid"
                 return
             }
-            
-            guard operators.contains(operand) else {
+
+            guard operators.contains(mathOperator) else {
                 printedString = "Unknown operator!"
                 return
             }
-            
+
             guard let rightValue = Double(right) else {
                 printedString = "Right operator not valid"
                 return
             }
-            
+
             let result: Double
-            switch operand {
+            switch mathOperator {
             case "+": result = leftValue + rightValue
             case "-": result = leftValue - rightValue
             case "×": result = leftValue * rightValue
             case "÷":
-                do { try verifyDivisionError(leftValue, by: rightValue) }
-                catch {
+                do { try verifyCanDivide(leftValue, by: rightValue) } catch {
                     printedString = CalculatorError.zeroDivisor.localizedDescription
                     return
                 }
                 result = leftValue / rightValue
             default: fatalError(CalculatorError.unknownOperator.localizedDescription)
             }
-            cleanEquation(operationsToReduce: &operationsToReduce, result: result)
-            
+            cleanEquation(operationsToReduce: &operationsToReduce,
+                          result: result, currentOperationUnitIndex: currentOperationUnitIndex)
         }
     }
-    
+
     private func checkEquationValidity() throws {
         // handling possible errors in case the expression processed doesn't contain all the necessary elements
         guard expressionHaveEnoughElement else {
             printedString = CalculatorError.missingElement.localizedDescription
             return
         }
-        
+
         guard isElementsContainingOperators else {
             printedString = CalculatorError.unknownOperator.localizedDescription
             return
         }
     }
-    
-    private func cleanEquation(operationsToReduce: inout [String], result: Double) {
-        operationsToReduce = Array(operationsToReduce.dropFirst(3))
-        operationsToReduce.insert("\(result.clean)", at: 0)
+
+    private func cleanEquation(operationsToReduce: inout [String], result: Double, currentOperationUnitIndex: Int) {
+        operationsToReduce.remove(at: currentOperationUnitIndex)
+        operationsToReduce.remove(at: currentOperationUnitIndex)
+        operationsToReduce.remove(at: currentOperationUnitIndex)
+        operationsToReduce.insert("\(result.clean)", at: currentOperationUnitIndex)
+
         guard let resultToPrint = operationsToReduce.first else {
             return
         }
         printedString = resultToPrint
     }
-    
+
     private func checkCanAddOperator() {
         guard canAddOperator else {
             sendNotification(name: .presentAlert)
             return
         }
     }
-    
+
     private func sendNotification(name: Notification.Name) {
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
     }
-    
-    private func verifyDivisionError(_ left: Double, by right: Double) throws {
+
+    /// Verifying that the left value can be divide by the right value
+    private func verifyCanDivide(_ left: Double, by right: Double) throws {
         guard right != 0 else {
             throw CalculatorError.zeroDivisor
         }
     }
-    
-    
+    /// check in the operators to see whether the operators used are piority operators or not and returning a boolean
+    private func isPriorityOperator(mathOperator: String) -> Bool {
+        switch mathOperator {
+        case "×", "÷": return true
+        default: return false
+        }
+    }
+
     /// check to see if an operand is contained within printedString and if true then remove the copy of the operand
     private func checkExtraOperator() {
         // TODO: fix problem that occurs since no range is defined when calling the function, need to check whether the operations to reduce is lower than 2
         let operationForReduce = elements
-        
-        print(printedString)
-        
+
         if isElementsContainingOperators {
             guard operationForReduce.count < 3 else {
                 print("index is out of range")
                 return
             }
-            guard let index = printedString.index(printedString.startIndex,offsetBy: 2, limitedBy: printedString.endIndex) else {
+            guard let index = printedString.index(printedString.startIndex,
+                                                  offsetBy: 2,
+                                                  limitedBy: printedString.endIndex) else {
                 print("index is out of range")
                 return
             }
-            guard let secondaryIndex = printedString.index(printedString.startIndex,offsetBy: 1, limitedBy: printedString.endIndex) else {
+            guard let secondaryIndex = printedString.index(printedString.startIndex,
+                                                           offsetBy: 1,
+                                                           limitedBy: printedString.endIndex) else {
                 print("index is out of range")
                 return
             }

@@ -15,7 +15,6 @@ enum CalculatorError: Error {
     case unknownOperator
 }
 
-
 extension CalculatorError: LocalizedError {
     /// Extension explaining what the program needs to return depending on the error return by the program
     public var errorDescription: String? {
