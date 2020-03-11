@@ -105,18 +105,19 @@ class Calculator {
         var currentOperationUnitIndex = 0
 
         // Iterate over operations while an operand still here
-        while currentOperationUnitIndex < operationsToReduce.count {
+        while operationsToReduce.count > 1 {
             /// Assigning operators a value of currentUnitIndex + 1
             let mathOperator = operationsToReduce[currentOperationUnitIndex + 1]
             /// Check if operationsToReduce still contains priority operators
-            let isFirstLoop = operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
+            let operationsContainsPriorityOperator = operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
+            let isPriorityOperators = isPriorityOperator(mathOperator: mathOperator)
             /// Check for priority operator and first loop
-            guard isPriorityOperator(mathOperator: mathOperator) && isFirstLoop else {
+            guard isPriorityOperators || !operationsContainsPriorityOperator else {
                 currentOperationUnitIndex += 2
                 continue
             }
             /// Setting UnitIndex back to zero when not on first loop
-            if !isFirstLoop {
+            if !operationsContainsPriorityOperator {
                 currentOperationUnitIndex = 0
             }
             ///Giving left and right UnitIndex value of 0 and 2
@@ -153,6 +154,8 @@ class Calculator {
             }
             cleanEquation(operationsToReduce: &operationsToReduce,
                           result: result, currentOperationUnitIndex: currentOperationUnitIndex)
+            // setting currentOperationUnitIndex back to 0 at the end of the loop
+            currentOperationUnitIndex = 0
         }
     }
 
