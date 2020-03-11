@@ -438,7 +438,7 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(calculator.printedString, "54")
     }
-    
+
     func testMultiplicationAdditionPriorityForMultiplication() {
         // Given
         let calculator = Calculator()
@@ -462,7 +462,7 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(calculator.printedString, "-36")
     }
-    
+
     func testMultiplicationSubstractionPriorityForMultiplication() {
         // Given
         let calculator = Calculator()
@@ -486,7 +486,7 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(calculator.printedString, "12")
     }
-    
+
     func testDivisionAdditionPriorityForDivision() {
         // Given
         let calculator = Calculator()
@@ -510,7 +510,7 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(calculator.printedString, "24")
     }
-    
+
     func testDivisionSubsctractionPriorityForDivision() {
         // Given
         let calculator = Calculator()
@@ -523,4 +523,99 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculator.printedString, "0")
     }
 
+    func testAdditionMultiplicationMultiplicationPriorityForMultiplication() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 + 5 × 9 × 3"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "144")
+    }
+
+    func testMultiplicationAdditionMultiplicationPriorityForMultiplication() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 × 5 + 9 × 9"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "126")
+    }
+
+    func testSubstractionMultiplicationMultiplicationPriorityForMultiplication() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 - 5 × 9 × 9"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "-396")
+    }
+
+    func testMultiplicationSubstractionMultiplicationPriorityForMultiplication() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 × 5 - 9 × 9"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "-36")
+    }
+
+    func testAdditionDivisionDivisionPriorityForDivision() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 + 9 ÷ 3 ÷ 3"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "10")
+    }
+
+    func testDivisionAdditionDivisionPriorityForDivision() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "9 ÷ 9 + 3 ÷ 5"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "1.6")
+    }
+
+    func testSubsctractionDivisionDivisionPriorityForDivision() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "27 - 9 ÷ 3 ÷ 3"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "26")
+    }
+
+    func testDivisionSubsctractionDivisionPriorityForDivision() {
+        // Given
+        let calculator = Calculator()
+        calculator.printedString = "27 ÷ 9 - 3 ÷ 4"
+
+        // When
+        calculator.resolveEquation()
+
+        // Then
+        XCTAssertEqual(calculator.printedString, "2.25")
+    }
 }

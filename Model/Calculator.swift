@@ -28,16 +28,19 @@ class Calculator {
         }
         printedString.append(numberText)
     }
+
     /// contains operators or is last element operator?
     func add(operators: String) {
         checkCanAddOperator()
         checkExtraOperator()
         printedString.append(operators)
     }
+
     /// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
     func reset() {
         printedString = "0"
     }
+
     /// is expression correct and has enough elements?
     func resolveEquation() {
         guard expressionIsCorrect else {
@@ -62,23 +65,28 @@ class Calculator {
     private var expressionIsCorrect: Bool {
         return !isLastElementOperator
     }
+
     /// making sure that the elements composing printedString are always above or equal to 3
     private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
+
     /// Is  the last element an operator, is printedString > 0?
     private var canAddOperator: Bool {
         return !isLastElementOperator && printedString.count > 0
     }
+
     /// returns a boolean after checking is the last element in elements is an operator
     private var isLastElementOperator: Bool {
         guard let lastElement = elements.last else { return false }
         return operators.contains(lastElement)
     }
+
     /// check if the previous expression was processed successfully
     private var expressionHaveResult: Bool {
         return printedString.firstIndex(of: "=") != nil
     }
+
     /// array of all the 4 operators which can be used in the application
     private var operators = ["+", "-", "×", "÷"]
 
@@ -95,6 +103,7 @@ class Calculator {
     private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
         operationsToReduce.contains { isPriorityOperator(mathOperator: $0) }
     }
+
     /// processing all the elements contained in printedString to return a result
     private func reduce() {
         do { try checkEquationValidity() } catch { return }
@@ -109,7 +118,8 @@ class Calculator {
             /// Assigning operators a value of currentUnitIndex + 1
             let mathOperator = operationsToReduce[currentOperationUnitIndex + 1]
             /// Check if operationsToReduce still contains priority operators
-            let operationsContainsPriorityOperator = operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
+            let operationsContainsPriorityOperator =
+                operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
             let isPriorityOperators = isPriorityOperator(mathOperator: mathOperator)
             /// Check for priority operator and first loop
             guard isPriorityOperators || !operationsContainsPriorityOperator else {
@@ -202,6 +212,7 @@ class Calculator {
             throw CalculatorError.zeroDivisor
         }
     }
+
     /// check in the operators to see whether the operators used are piority operators or not and returning a boolean
     private func isPriorityOperator(mathOperator: String) -> Bool {
         switch mathOperator {
@@ -220,12 +231,14 @@ class Calculator {
                 print("index is out of range")
                 return
             }
+
             guard let index = printedString.index(printedString.startIndex,
                                                   offsetBy: 2,
                                                   limitedBy: printedString.endIndex) else {
                 print("index is out of range")
                 return
             }
+
             guard let secondaryIndex = printedString.index(printedString.startIndex,
                                                            offsetBy: 1,
                                                            limitedBy: printedString.endIndex) else {
