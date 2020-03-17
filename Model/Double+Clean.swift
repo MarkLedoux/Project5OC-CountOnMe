@@ -11,7 +11,7 @@ import Foundation
 /// Truncating the result by removing the decimal
 extension Double {
 
-    /// Take out decimal part
+    /// Take out decimal part when doing an addition or a substraction 
     var clean: String {
         return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }

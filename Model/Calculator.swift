@@ -23,9 +23,16 @@ class Calculator {
     // MARK: Methods
     /// Set printedString to "" then add a number
     func addNumber(_ numberText: String) {
+        if !printedString.isEmpty || printedString.isEmpty {
+            if printedString.first == "0" {
+                printedString = ""
+            }
+        }
+
         if expressionHaveResult {
             printedString = ""
         }
+
         printedString.append(numberText)
     }
 
@@ -43,13 +50,6 @@ class Calculator {
 
     /// is expression correct and has enough elements?
     func resolveEquation() {
-        guard expressionIsCorrect else {
-            return sendNotification(name: .presentAlertForCorrectExpression)
-        }
-
-        guard expressionHaveEnoughElement else {
-            return sendNotification(name: .presentAlertForElementNumber)
-        }
         reduce()
     }
 
@@ -98,6 +98,15 @@ class Calculator {
         return false
     }
 
+    private var numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 5
+
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+
     // MARK: Methods - Private
     /// operationsToReduce contains priority operator?
     private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
@@ -106,7 +115,17 @@ class Calculator {
 
     /// processing all the elements contained in printedString to return a result
     private func reduce() {
-        do { try checkEquationValidity() } catch { return }
+        do {
+            try checkEquationValidity()
+        } catch CalculatorError.unknownOperator {
+            sendNotification(name: .notEnoughElementsInExpression)
+            return
+        } catch CalculatorError.missingElement {
+            sendNotification(name: .incorrectExpression)
+            return
+        } catch {
+
+        }
 
         // Create local copy of operations
         var operationsToReduce = elements
@@ -160,7 +179,9 @@ class Calculator {
                     return
                 }
                 result = leftValue / rightValue
-            default: fatalError(CalculatorError.unknownOperator.localizedDescription)
+            default:
+                assertionFailure(CalculatorError.unknownOperator.localizedDescription)
+                return
             }
             cleanEquation(operationsToReduce: &operationsToReduce,
                           result: result, currentOperationUnitIndex: currentOperationUnitIndex)
@@ -173,20 +194,27 @@ class Calculator {
         // handling possible errors in case the expression processed doesn't contain all the necessary elements
         guard expressionHaveEnoughElement else {
             printedString = CalculatorError.missingElement.localizedDescription
-            return
+            throw CalculatorError.missingElement
         }
 
         guard isElementsContainingOperators else {
             printedString = CalculatorError.unknownOperator.localizedDescription
-            return
+            throw CalculatorError.unknownOperator
         }
     }
 
+    private func formatNumberToString(number: Double) -> String? {
+        return numberFormatter.string(from: number as NSNumber)
+    }
+
     private func cleanEquation(operationsToReduce: inout [String], result: Double, currentOperationUnitIndex: Int) {
+
+        guard let resultAsString = formatNumberToString(number: result) else { return }
+
         operationsToReduce.remove(at: currentOperationUnitIndex)
         operationsToReduce.remove(at: currentOperationUnitIndex)
         operationsToReduce.remove(at: currentOperationUnitIndex)
-        operationsToReduce.insert("\(result.clean)", at: currentOperationUnitIndex)
+        operationsToReduce.insert(resultAsString, at: currentOperationUnitIndex)
 
         guard let resultToPrint = operationsToReduce.first else {
             return
@@ -196,7 +224,7 @@ class Calculator {
 
     private func checkCanAddOperator() {
         guard canAddOperator else {
-            sendNotification(name: .presentAlert)
+            sendNotification(name: .cannotAddOperator)
             return
         }
     }
@@ -224,6 +252,7 @@ class Calculator {
     /// check to see if an operand is contained within printedString and if true then remove the copy of the operand
     private func checkExtraOperator() {
         // TODO: fix problem that occurs since no range is defined when calling the function, need to check whether the operations to reduce is lower than 2
+        //  check if the last element is an operator and if it is delete it and replace it by the new one, taking a parameter
         let operationForReduce = elements
 
         if isElementsContainingOperators {

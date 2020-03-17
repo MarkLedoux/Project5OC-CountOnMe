@@ -31,21 +31,21 @@ class CalculatorViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(presentAlertForCorrectExpression),
-            name: .presentAlertForCorrectExpression,
+            name: .incorrectExpression,
             object: nil
         )
 
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(presentAlertForElementNumber),
-            name: .presentAlertForElementNumber,
+            name: .notEnoughElementsInExpression,
             object: nil
         )
 
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(presentAlert),
-            name: .presentAlert,
+            name: .cannotAddOperator,
             object: nil)
     }
 
