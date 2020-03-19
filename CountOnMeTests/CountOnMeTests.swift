@@ -285,22 +285,6 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculator.printedString, "Right operator not valid")
     }
 
-    func testExpressionIsCorrect() {
-        // Given
-        let calculator = Calculator()
-        calculator.printedString = "9 + "
-        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForCorrectExpression"),
-                    object: nil,
-                    handler: nil)
-
-        // When
-        calculator.resolveEquation()
-
-        // Then
-        NotificationCenter.default.post(name: NSNotification.Name("presentAlertForCorrectExpression"), object: nil)
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
     func testAddNumberWhenExpressionHasResult() {
         // Given
         let calculator = Calculator()
@@ -390,6 +374,4 @@ class CountOnMeTests: XCTestCase {
         // Then
         XCTAssertEqual(calculator.printedString, "5 ÷ ")
     }
-
-    
 }

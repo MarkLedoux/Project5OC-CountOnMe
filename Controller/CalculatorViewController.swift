@@ -27,26 +27,6 @@ class CalculatorViewController: UIViewController {
             name: .receivedDataFromCountOnMe,
             object: nil
         )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(presentAlertForCorrectExpression),
-            name: .incorrectExpression,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(presentAlertForElementNumber),
-            name: .notEnoughElementsInExpression,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(presentAlert),
-            name: .cannotAddOperator,
-            object: nil)
     }
 
     // MARK: Actions
@@ -86,24 +66,5 @@ class CalculatorViewController: UIViewController {
 
     @objc func receiveDataFromCountOnMe() {
         textView.text = calculator.printedString
-    }
-
-    private func presentSimpleAlert(title: String, message: String) {
-        //create a notification for error and make it so that an alert is called
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alertVC, animated: true, completion: nil)
-    }
-
-    @objc private func presentAlertForCorrectExpression() {
-         presentSimpleAlert(title: "Zéro", message: "Entrez une expression correcte !")
-    }
-
-    @objc private func presentAlertForElementNumber() {
-         presentSimpleAlert(title: "Zéro", message: "Démarrez un nouveau calcul !")
-    }
-
-    @objc private func presentAlert() {
-        presentSimpleAlert(title: "Zéro", message: "Cette opération ne peut pas être effectuée")
     }
 }

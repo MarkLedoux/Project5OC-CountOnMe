@@ -23,12 +23,8 @@ class Calculator {
     // MARK: Methods
     /// Set printedString to "" then add a number
     func addNumber(_ numberText: String) {
-        if !printedString.isEmpty || printedString.isEmpty {
-            if printedString.first == "0" {
-                printedString = ""
-            }
-        }
-
+        isEmpty()
+        removeExtraZero()
         if expressionHaveResult {
             printedString = ""
         }
@@ -38,8 +34,7 @@ class Calculator {
 
     /// contains operators or is last element operator?
     func add(operators: String) {
-        checkCanAddOperator()
-        checkExtraOperator()
+        removeFirstOperator()
         printedString.append(operators)
     }
 
@@ -61,25 +56,9 @@ class Calculator {
         return printedString.split(separator: " ").map { "\($0)" }
     }
 
-    /// is printedString final element an operator?
-    private var expressionIsCorrect: Bool {
-        return !isLastElementOperator
-    }
-
     /// making sure that the elements composing printedString are always above or equal to 3
     private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
-    }
-
-    /// Is  the last element an operator, is printedString > 0?
-    private var canAddOperator: Bool {
-        return !isLastElementOperator && printedString.count > 0
-    }
-
-    /// returns a boolean after checking is the last element in elements is an operator
-    private var isLastElementOperator: Bool {
-        guard let lastElement = elements.last else { return false }
-        return operators.contains(lastElement)
     }
 
     /// check if the previous expression was processed successfully
@@ -118,14 +97,10 @@ class Calculator {
         do {
             try checkEquationValidity()
         } catch CalculatorError.unknownOperator {
-            sendNotification(name: .notEnoughElementsInExpression)
             return
         } catch CalculatorError.missingElement {
-            sendNotification(name: .incorrectExpression)
             return
-        } catch {
-
-        }
+        } catch {}
 
         // Create local copy of operations
         var operationsToReduce = elements
@@ -155,11 +130,6 @@ class Calculator {
 
             guard let leftValue = Double(left) else {
                 printedString = "Left operator not valid"
-                return
-            }
-
-            guard operators.contains(mathOperator) else {
-                printedString = "Unknown operator!"
                 return
             }
 
@@ -222,13 +192,6 @@ class Calculator {
         printedString = resultToPrint
     }
 
-    private func checkCanAddOperator() {
-        guard canAddOperator else {
-            sendNotification(name: .cannotAddOperator)
-            return
-        }
-    }
-
     private func sendNotification(name: Notification.Name) {
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
@@ -250,33 +213,38 @@ class Calculator {
     }
 
     /// check to see if an operand is contained within printedString and if true then remove the copy of the operand
-    private func checkExtraOperator() {
-        // TODO: fix problem that occurs since no range is defined when calling the function, need to check whether the operations to reduce is lower than 2
-        //  check if the last element is an operator and if it is delete it and replace it by the new one, taking a parameter
-        let operationForReduce = elements
-
-        if isElementsContainingOperators {
-            guard operationForReduce.count < 3 else {
-                print("index is out of range")
-                return
+    private func removeFirstOperator() {
+        //  check if the last element is an operator and if it is delete it and replace it by the new one
+//        let contains = operators.contains(where: printedString.contains)
+//
+//        if contains {
+//            printedString.removeLast()
+//        }
+        for operand in operators {
+            while printedString.contains(operand) {
+                printedString.removeLast()
             }
+        }
+    }
 
-            guard let index = printedString.index(printedString.startIndex,
-                                                  offsetBy: 2,
-                                                  limitedBy: printedString.endIndex) else {
-                print("index is out of range")
-                return
+    private func isEmpty() {
+        if !printedString.isEmpty || printedString.isEmpty {
+            if printedString.first == "0" {
+                printedString = ""
             }
+        }
+    }
 
-            guard let secondaryIndex = printedString.index(printedString.startIndex,
-                                                           offsetBy: 1,
-                                                           limitedBy: printedString.endIndex) else {
-                print("index is out of range")
-                return
+    private func removeExtraZero() {
+        print(printedString)
+        if printedString.count > 2 {
+            print()
+            print("Printed is currently: \(printedString)")
+            if printedString.hasSuffix(String(operators.contains(where: printedString.contains))) {
+                if printedString.first == "0" {
+                    printedString.remove(at: printedString.endIndex)
+                }
             }
-            printedString.remove(at: index)
-            printedString.remove(at: secondaryIndex)
-            printedString.remove(at: secondaryIndex)
         }
     }
 }

@@ -10,7 +10,4 @@ import Foundation
 
 extension Notification.Name {
     static let receivedDataFromCountOnMe = Notification.Name("receivedDataFromCountOnMe")
-    static let cannotAddOperator = Notification.Name("presentAlert")
-    static let incorrectExpression = Notification.Name("presentAlertForCorrectExpression")
-    static let notEnoughElementsInExpression = Notification.Name("presentAlertForElementNumber")
 }
