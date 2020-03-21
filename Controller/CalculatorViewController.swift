@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, CalculatorDelegate {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
 
@@ -17,16 +17,7 @@ class CalculatorViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupObservers()
-    }
-
-    private func setupObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(receiveDataFromCountOnMe),
-            name: .receivedDataFromCountOnMe,
-            object: nil
-        )
+        calculator.delegate = self
     }
 
     // MARK: Actions
@@ -60,11 +51,5 @@ class CalculatorViewController: UIViewController {
 
     @IBAction func tappedACButton(_ sender: UIButton) {
         calculator.reset()
-    }
-
-    // MARK: - @obj functions and other methods to present alerts to the user
-
-    @objc func receiveDataFromCountOnMe() {
-        textView.text = calculator.printedString
     }
 }

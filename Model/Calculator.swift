@@ -13,10 +13,10 @@ class Calculator {
     // MARK: - Internal
 
     // MARK: Properties
-
+    weak var delegate: CalculatorDelegate?
     var printedString: String = "1 + 1 = 2" {
         didSet {
-            sendNotification(name: .receivedDataFromCountOnMe)
+            delegate?.didUpdatePrintedString()
         }
     }
 
