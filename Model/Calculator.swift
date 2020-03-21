@@ -14,6 +14,7 @@ class Calculator {
 
     // MARK: Properties
     weak var delegate: CalculatorDelegate?
+
     var printedString: String = "1 + 1 = 2" {
         didSet {
             delegate?.didUpdatePrintedString()
@@ -42,58 +43,9 @@ class Calculator {
     func reset() {
         printedString = "0"
     }
-
-    /// is expression correct and has enough elements?
-    func resolveEquation() {
-        reduce()
-    }
-
-    // MARK: - Private
-
-    // MARK: Properties
-    /// separating all the elements of printedString so they can be used individually throughout the code
-    private var elements: [String] {
-        return printedString.split(separator: " ").map { "\($0)" }
-    }
-
-    /// making sure that the elements composing printedString are always above or equal to 3
-    private var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-
-    /// check if the previous expression was processed successfully
-    private var expressionHaveResult: Bool {
-        return printedString.firstIndex(of: "=") != nil
-    }
-
-    /// array of all the 4 operators which can be used in the application
-    private var operators = ["+", "-", "×", "÷"]
-
-    private var isElementsContainingOperators: Bool {
-        /// Check if the operators are contained in the array of not
-        for operand in operators where elements.contains(operand) {
-            return true
-        }
-        return false
-    }
-
-    private var numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 5
-
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
-
-    // MARK: Methods - Private
-    /// operationsToReduce contains priority operator?
-    private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
-        operationsToReduce.contains { isPriorityOperator(mathOperator: $0) }
-    }
-
+    
     /// processing all the elements contained in printedString to return a result
-    private func reduce() {
+    func reduce() {
         do {
             try checkEquationValidity()
         } catch CalculatorError.unknownOperator {
@@ -160,6 +112,50 @@ class Calculator {
         }
     }
 
+    // MARK: - Private
+
+    // MARK: Properties
+    /// separating all the elements of printedString so they can be used individually throughout the code
+    private var elements: [String] {
+        return printedString.split(separator: " ").map { "\($0)" }
+    }
+
+    /// making sure that the elements composing printedString are always above or equal to 3
+    private var expressionHaveEnoughElement: Bool {
+        return elements.count >= 3
+    }
+
+    /// check if the previous expression was processed successfully
+    private var expressionHaveResult: Bool {
+        return printedString.firstIndex(of: "=") != nil
+    }
+
+    /// array of all the 4 operators which can be used in the application
+    private var operators = ["+", "-", "×", "÷"]
+
+    private var isElementsContainingOperators: Bool {
+        /// Check if the operators are contained in the array of not
+        for operand in operators where elements.contains(operand) {
+            return true
+        }
+        return false
+    }
+
+    private var numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 5
+
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+
+    // MARK: Methods - Private
+    /// operationsToReduce contains priority operator?
+    private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
+        operationsToReduce.contains { isPriorityOperator(mathOperator: $0) }
+    }
+
     private func checkEquationValidity() throws {
         // handling possible errors in case the expression processed doesn't contain all the necessary elements
         guard expressionHaveEnoughElement else {
@@ -190,11 +186,6 @@ class Calculator {
             return
         }
         printedString = resultToPrint
-    }
-
-    private func sendNotification(name: Notification.Name) {
-        let notification = Notification(name: name)
-        NotificationCenter.default.post(notification)
     }
 
     /// Verifying that the left value can be divide by the right value
