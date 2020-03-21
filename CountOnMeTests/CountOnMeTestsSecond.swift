@@ -49,7 +49,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 + 5 × 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "54")
@@ -61,7 +61,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 × 5 + 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "54")
@@ -73,7 +73,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 - 5 × 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "-36")
@@ -85,7 +85,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 × 5 - 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "36")
@@ -97,7 +97,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 + 9 ÷ 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "12")
@@ -109,7 +109,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 ÷ 9 + 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "4")
@@ -121,7 +121,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "27 - 9 ÷ 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "24")
@@ -133,7 +133,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "27 ÷ 9 - 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "0")
@@ -145,7 +145,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 + 5 × 9 × 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "144")
@@ -157,7 +157,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 × 5 + 9 × 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "126")
@@ -169,7 +169,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 - 5 × 9 × 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "-396")
@@ -181,7 +181,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 × 5 - 9 × 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "-36")
@@ -193,7 +193,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 + 9 ÷ 3 ÷ 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "10")
@@ -205,7 +205,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 ÷ 9 + 3 ÷ 5"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "1.6")
@@ -217,7 +217,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "27 - 9 ÷ 3 ÷ 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "26")
@@ -229,7 +229,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "27 ÷ 9 - 3 ÷ 4"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "2.25")
@@ -254,7 +254,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "9 a 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, CalculatorError.unknownOperator.localizedDescription)

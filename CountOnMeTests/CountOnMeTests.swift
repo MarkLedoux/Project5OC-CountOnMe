@@ -25,7 +25,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "4 + 5"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "9")
@@ -38,7 +38,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 - 8"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "1")
@@ -50,7 +50,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 + 8 - 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "14")
@@ -62,7 +62,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 - 8 + 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "4")
@@ -74,7 +74,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 + 8 + 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "20")
@@ -86,7 +86,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 - 8 - 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "-2")
@@ -98,7 +98,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 × 8 × 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "216")
@@ -110,7 +110,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 × 8 ÷ 3"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "24")
@@ -122,7 +122,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "12 ÷ 2 ÷ 6"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "1")
@@ -134,7 +134,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "12 ÷ 2 × 6"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "36")
@@ -146,7 +146,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 × 8"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "72")
@@ -158,7 +158,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 ÷ 4"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "2.25")
@@ -181,7 +181,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "5 ÷ 0"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Not a number")
@@ -242,7 +242,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
 
@@ -267,7 +267,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "a + 9"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Left operator not valid")
@@ -279,7 +279,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "9 + a"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         // Then
         XCTAssertEqual(calculator.printedString, "Right operator not valid")
@@ -297,43 +297,13 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculator.printedString, "9")
     }
 
-    func testMultiplyButtonTappedAlert() {
-        // Given
-        let calculator = Calculator()
-        calculator.printedString = "9 + "
-        expectation(forNotification: NSNotification.Name(rawValue: "presentAlertForElementNumber"),
-                object: nil,
-                handler: nil)
-
-        // When
-        calculator.add(operators: " × ")
-
-        // Then
-        NotificationCenter.default.post(name: NSNotification.Name("presentAlertForElementNumber"), object: nil)
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
-    func testRightOperator() {
-        // Given
-        let calculator = Calculator()
-        calculator.printedString = "5 + -"
-        expectation(forNotification: NSNotification.Name("presentAlertForCorrectExpression"), object: nil, handler: nil)
-
-        // When
-        calculator.resolveEquation()
-
-        // Then
-        NotificationCenter.default.post(name: NSNotification.Name("presentAlertForCorrectExpression"), object: nil)
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
     func testLeftOperator() {
         // Given
         let calculator = Calculator()
         calculator.printedString = "- + 5"
 
         // When
-        calculator.resolveEquation()
+        calculator.reduce()
 
         //Then
         XCTAssertEqual(calculator.printedString, "Left operator not valid")

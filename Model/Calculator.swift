@@ -92,10 +92,10 @@ class Calculator {
 
             let result: Double
             switch mathOperator {
-            case "+": result = leftValue + rightValue
-            case "-": result = leftValue - rightValue
-            case "×": result = leftValue * rightValue
-            case "÷":
+			case Operators.addition.rawValue: result = leftValue + rightValue
+            case Operators.substraction.rawValue: result = leftValue - rightValue
+            case Operators.multiplication.rawValue: result = leftValue * rightValue
+            case Operators.division.rawValue:
                 do { try verifyCanDivide(leftValue, by: rightValue) } catch {
                     printedString = CalculatorError.zeroDivisor.localizedDescription
                     return
