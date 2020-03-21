@@ -130,12 +130,9 @@ class Calculator {
         return printedString.firstIndex(of: "=") != nil
     }
 
-    /// array of all the 4 operators which can be used in the application
-    private var operators = ["+", "-", "×", "÷"]
-
     private var isElementsContainingOperators: Bool {
         /// Check if the operators are contained in the array of not
-        for operand in operators where elements.contains(operand) {
+        for operand in Operators.allCases where elements.contains(operand.rawValue) {
             return true
         }
         return false
@@ -210,12 +207,12 @@ class Calculator {
 //
 //        if contains {
 //            printedString.removeLast()
+////        }
+//        for operand in operators {
+//            while printedString.contains(operand) {
+//                printedString.removeLast()
+//            }
 //        }
-        for operand in operators {
-            while printedString.contains(operand) {
-                printedString.removeLast()
-            }
-        }
     }
 
     private func isEmpty() {
@@ -227,15 +224,15 @@ class Calculator {
     }
 
     private func removeExtraZero() {
-        print(printedString)
-        if printedString.count > 2 {
-            print()
-            print("Printed is currently: \(printedString)")
-            if printedString.hasSuffix(String(operators.contains(where: printedString.contains))) {
-                if printedString.first == "0" {
-                    printedString.remove(at: printedString.endIndex)
-                }
-            }
-        }
+//        print(printedString)
+//        if printedString.count > 2 {
+//            print()
+//            print("Printed is currently: \(printedString)")
+//            if printedString.hasSuffix(String(operators.contains(where: printedString.contains))) {
+//                if printedString.first == "0" {
+//                    printedString.remove(at: printedString.endIndex)
+//                }
+//            }
+//        }
     }
 }

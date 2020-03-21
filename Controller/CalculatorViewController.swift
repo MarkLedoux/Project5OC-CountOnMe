@@ -30,23 +30,23 @@ class CalculatorViewController: UIViewController, CalculatorDelegate {
     }
 
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        calculator.add(operators: " + ")
+        calculator.add(operators: " \(Operators.addition.rawValue) ")
     }
 
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        calculator.add(operators: " - ")
+        calculator.add(operators: " \(Operators.substraction.rawValue) ")
     }
 
     @IBAction func tappedMultiplyButton(_ sender: UIButton) {
-        calculator.add(operators: " × ")
+        calculator.add(operators: " \(Operators.multiplication.rawValue) ")
     }
 
     @IBAction func tappedDivideButton(_ sender: UIButton) {
-        calculator.add(operators: " ÷ ")
+        calculator.add(operators: " \(Operators.division.rawValue) ")
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        calculator.resolveEquation()
+        calculator.reduce()
     }
 
     @IBAction func tappedACButton(_ sender: UIButton) {
