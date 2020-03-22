@@ -25,7 +25,7 @@ class CountOnMeTestsSecond: XCTestCase {
         calculator.printedString = "5 + "
 
         // When
-        calculator.add(operators: " × ")
+        calculator.add(operators: " \(Operators.multiplication.rawValue) ")
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 × ")
