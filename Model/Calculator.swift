@@ -54,18 +54,20 @@ class Calculator {
 			return
 		} catch {}
 
-		// Create local copy of operations
+		/// Create local copy of operations
 		var operationsToReduce = elements
 		/// when looping in the array, the minimum value of the first index
 		var currentOperationUnitIndex = 0
 
-		// Iterate over operations while an operand still here
+		/// Iterate over operations while an operand still here
 		while operationsToReduce.count > 1 {
 			/// Assigning operators a value of currentUnitIndex + 1
 			let mathOperator = operationsToReduce[currentOperationUnitIndex + 1]
 			/// Check if operationsToReduce still contains priority operators
 			let operationsContainsPriorityOperator =
 				operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
+
+			/// check 
 			let isPriorityOperators = isPriorityOperator(mathOperator: mathOperator)
 			/// Check for priority operator and first loop
 			guard isPriorityOperators || !operationsContainsPriorityOperator else {
@@ -81,12 +83,12 @@ class Calculator {
 			let right = operationsToReduce[currentOperationUnitIndex + 2]
 
 			guard let leftValue = Double(left) else {
-				printedString = "Left operator not valid"
+				printedString = CalculatorError.leftOperatorNotValid.localizedDescription
 				return
 			}
 
 			guard let rightValue = Double(right) else {
-				printedString = "Right operator not valid"
+				printedString = CalculatorError.rightOperatorNotValid.localizedDescription
 				return
 			}
 
@@ -138,6 +140,7 @@ class Calculator {
 		return false
 	}
 
+	/// property to say how many numbers after the decimal are allowed
 	private var numberFormatter: NumberFormatter = {
 		let formatter = NumberFormatter()
 		formatter.minimumFractionDigits = 0
@@ -153,8 +156,8 @@ class Calculator {
 		operationsToReduce.contains { isPriorityOperator(mathOperator: $0) }
 	}
 
+	///handling possible errors in case the expression processed doesn't contain all the necessary elements
 	private func checkEquationValidity() throws {
-		// handling possible errors in case the expression processed doesn't contain all the necessary elements
 		guard expressionHaveEnoughElement else {
 			printedString = CalculatorError.missingElement.localizedDescription
 			throw CalculatorError.missingElement
@@ -166,10 +169,12 @@ class Calculator {
 		}
 	}
 
+	/// transforming the double from the result into a string so it can be displayed by the view
 	private func formatNumberToString(number: Double) -> String? {
 		return numberFormatter.string(from: number as NSNumber)
 	}
 
+	/// function which makes it possible to handle priority of operations
 	private func cleanEquation(operationsToReduce: inout [String], result: Double, currentOperationUnitIndex: Int) {
 
 		guard let resultAsString = formatNumberToString(number: result) else { return }
@@ -195,7 +200,7 @@ class Calculator {
 	/// check in the operators to see whether the operators used are piority operators or not and returning a boolean
 	private func isPriorityOperator(mathOperator: String) -> Bool {
 		switch mathOperator {
-		case "×", "÷": return true
+		case Operators.multiplication.rawValue, Operators.division.rawValue: return true
 		default: return false
 		}
 	}
