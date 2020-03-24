@@ -15,7 +15,7 @@ class Calculator {
 	// MARK: Properties
 	weak var delegate: CalculatorDelegate?
 
-	var printedString: String = "1 + 1 = 2" {
+	var printedString: String = "0" {
 		didSet {
 			delegate?.didUpdatePrintedString()
 		}
@@ -25,7 +25,7 @@ class Calculator {
 	/// Set printedString to "" then add a number
 	func addNumber(_ numberText: String) {
 		isEmpty()
-		removeExtraZero()
+		removeFirstZeroInNumber()
 		if expressionHaveResult {
 			printedString = ""
 		}
@@ -150,6 +150,7 @@ class Calculator {
 		return formatter
 	}()
 
+	/// Loop on all the cases for the operators in MathOperator to see if last in element
 	private var isLastElementOperator: Bool {
 		for mathOperator in Operators.allCases {
 			if mathOperator.rawValue == elements.last {
@@ -216,8 +217,6 @@ class Calculator {
 
 	/// check to see if an operand is contained within printedString and if true then remove the copy of the operand
 	private func removeLastOperatorIfNecessary() {
-
-
 		if isLastElementOperator {
 			printedString.removeLast()
 			printedString.removeLast()
@@ -233,7 +232,7 @@ class Calculator {
 		}
 	}
 
-	private func removeExtraZero() {
+	private func removeFirstZeroInNumber() {
 		//        print(printedString)
 		//        if printedString.count > 2 {
 		//            print()
