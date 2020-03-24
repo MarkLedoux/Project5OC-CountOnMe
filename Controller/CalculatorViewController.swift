@@ -8,48 +8,54 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController, CalculatorDelegate {
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
+class CalculatorViewController: UIViewController {
+	@IBOutlet weak var textView: UITextView!
+	@IBOutlet var numberButtons: [UIButton]!
 
-    let calculator = Calculator()
+	private let calculator = Calculator()
 
-    // View Life cycles
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        calculator.delegate = self
-    }
+	// View Life cycles
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		calculator.delegate = self
+	}
 
-    // MARK: Actions
+	// MARK: Actions
 
-    @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else {
-            return
-        }
-        calculator.addNumber(numberText)
-    }
+	@IBAction func tappedNumberButton(_ sender: UIButton) {
+		guard let numberText = sender.title(for: .normal) else {
+			return
+		}
+		calculator.addNumber(numberText)
+	}
 
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        calculator.add(operators: " \(Operators.addition.rawValue) ")
-    }
+	@IBAction func tappedAdditionButton(_ sender: UIButton) {
+		calculator.add(operators: .addition)
+	}
 
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        calculator.add(operators: " \(Operators.substraction.rawValue) ")
-    }
+	@IBAction func tappedSubstractionButton(_ sender: UIButton) {
+		calculator.add(operators: .substraction)
+	}
 
-    @IBAction func tappedMultiplyButton(_ sender: UIButton) {
-        calculator.add(operators: " \(Operators.multiplication.rawValue) ")
-    }
+	@IBAction func tappedMultiplyButton(_ sender: UIButton) {
+		calculator.add(operators: .multiplication)
+	}
 
-    @IBAction func tappedDivideButton(_ sender: UIButton) {
-        calculator.add(operators: " \(Operators.division.rawValue) ")
-    }
+	@IBAction func tappedDivideButton(_ sender: UIButton) {
+		calculator.add(operators: .division)
+	}
 
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
-        calculator.reduce()
-    }
+	@IBAction func tappedEqualButton(_ sender: UIButton) {
+		calculator.reduce()
+	}
 
-    @IBAction func tappedACButton(_ sender: UIButton) {
-        calculator.reset()
-    }
+	@IBAction func tappedACButton(_ sender: UIButton) {
+		calculator.reset()
+	}
+}
+
+extension CalculatorViewController: CalculatorDelegate {
+	func didUpdatePrintedString() {
+		textView.text = calculator.printedString
+	}
 }

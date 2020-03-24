@@ -34,9 +34,9 @@ class Calculator {
 	}
 
 	/// contains operators or is last element operator?
-	func add(operators: String) {
-		removeFirstOperator()
-		printedString.append(operators)
+	func add(operators: Operators) {
+		removeLastOperatorIfNecessary()
+		printedString.append(operators.rawValue)
 	}
 
 	/// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
@@ -150,6 +150,15 @@ class Calculator {
 		return formatter
 	}()
 
+	private var isLastElementOperator: Bool {
+		for mathOperator in Operators.allCases {
+			if mathOperator.rawValue == elements.last {
+				return true
+			}
+		}
+		return false
+	}
+
 	// MARK: Methods - Private
 	/// operationsToReduce contains priority operator?
 	private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
@@ -206,19 +215,14 @@ class Calculator {
 	}
 
 	/// check to see if an operand is contained within printedString and if true then remove the copy of the operand
-	private func removeFirstOperator() {
+	private func removeLastOperatorIfNecessary() {
 
-		//  check if the last element is an operator and if it is delete it and replace it by the new one
-		//        let contains = operators.contains(where: printedString.contains)
-		//
-		//        if contains {
-		//            printedString.removeLast()
-		////        }
-		//        for operand in operators {
-		//            while printedString.contains(operand) {
-		//                printedString.removeLast()
-		//            }
-		//        }
+
+		if isLastElementOperator {
+			printedString.removeLast()
+			printedString.removeLast()
+			printedString.removeLast()
+		}
 	}
 
 	private func isEmpty() {
