@@ -184,7 +184,7 @@ class CountOnMeTests: XCTestCase {
         calculator.reduce()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "Not a number")
+		XCTAssertEqual(calculator.printedString, CalculatorError.zeroDivisor.localizedDescription)
     }
 
     func testMinusButton() {
@@ -193,10 +193,10 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-		calculator.add(operators: " \(Operators.substraction.rawValue) ")
+		calculator.add(operators: .substraction)
 
         // Then
-        XCTAssertEqual(calculator.printedString, " \(Operators.substraction.rawValue) ")
+        XCTAssertEqual(calculator.printedString, " \(MathOperator.substraction.rawValue) ")
     }
 
     func testPlusButton() {
@@ -205,10 +205,10 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.add(operators: " \(Operators.addition.rawValue) ")
+		calculator.add(operators: .addition)
 
         // Then
-        XCTAssertEqual(calculator.printedString, " \(Operators.addition.rawValue) ")
+        XCTAssertEqual(calculator.printedString, " \(MathOperator.addition.rawValue) ")
     }
 
     func testMultiplyButton() {
@@ -217,10 +217,10 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.add(operators: " \(Operators.multiplication.rawValue) ")
+		calculator.add(operators: .multiplication)
 
         // Then
-        XCTAssertEqual(calculator.printedString, " \(Operators.multiplication.rawValue) ")
+        XCTAssertEqual(calculator.printedString, " \(MathOperator.multiplication.rawValue) ")
     }
 
     func testDivideButton() {
@@ -229,11 +229,11 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = ""
 
         // When
-        calculator.add(operators: " \(Operators.division.rawValue) ")
+		calculator.add(operators: .division)
 
         // Then
 
-        XCTAssertEqual(calculator.printedString, " ÷ ")
+        XCTAssertEqual(calculator.printedString, " \(MathOperator.division.rawValue) ")
     }
 
     func testEqualButton() {
@@ -246,7 +246,7 @@ class CountOnMeTests: XCTestCase {
 
         // Then
 
-        XCTAssertEqual(calculator.printedString, "Element missing")
+		XCTAssertEqual(calculator.printedString, CalculatorError.missingElement.localizedDescription)
     }
 
     func testAddNumber() {
@@ -270,7 +270,7 @@ class CountOnMeTests: XCTestCase {
         calculator.reduce()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "Left operator not valid")
+		XCTAssertEqual(calculator.printedString, CalculatorError.leftOperatorNotValid.localizedDescription)
     }
 
     func testReduceValidRighttoperator() {
@@ -282,7 +282,7 @@ class CountOnMeTests: XCTestCase {
         calculator.reduce()
 
         // Then
-        XCTAssertEqual(calculator.printedString, "Right operator not valid")
+        XCTAssertEqual(calculator.printedString, CalculatorError.rightOperatorNotValid.localizedDescription)
     }
 
     func testAddNumberWhenExpressionHasResult() {
@@ -306,7 +306,7 @@ class CountOnMeTests: XCTestCase {
         calculator.reduce()
 
         //Then
-        XCTAssertEqual(calculator.printedString, "Left operator not valid")
+		XCTAssertEqual(calculator.printedString, CalculatorError.leftOperatorNotValid.localizedDescription)
     }
 
     func testOperandButtonAddition() {
@@ -315,7 +315,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "5 + "
 
         // When
-        calculator.add(operators: " \(Operators.addition.rawValue) ")
+		calculator.add(operators: .addition)
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 + ")
@@ -327,7 +327,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "5 + "
 
         // When
-        calculator.add(operators: " \(Operators.substraction.rawValue) ")
+		calculator.add(operators: .substraction)
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 - ")
@@ -339,7 +339,7 @@ class CountOnMeTests: XCTestCase {
         calculator.printedString = "5 + "
 
         // When
-        calculator.add(operators: " \(Operators.division.rawValue) ")
+		calculator.add(operators: .division)
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 ÷ ")
@@ -351,7 +351,7 @@ class CountOnMeTests: XCTestCase {
 		calculator.printedString = "5 + "
 
 		// When
-		calculator.add(operators: " \(Operators.multiplication.rawValue) ")
+		calculator.add(operators: .multiplication)
 
 		// Then
 		XCTAssertEqual(calculator.printedString, "5 × ")

@@ -34,9 +34,9 @@ class Calculator {
 	}
 
 	/// contains operators or is last element operator?
-	func add(operators: Operators) {
+	func add(operators: MathOperator) {
 		removeLastOperatorIfNecessary()
-		printedString.append(operators.rawValue)
+		printedString.append(" \(operators.rawValue) ")
 	}
 
 	/// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
@@ -45,6 +45,7 @@ class Calculator {
 	}
 
 	/// processing all the elements contained in printedString to return a result
+	// swiftlint:disable:next  function_body_length
 	func reduce() {
 		do {
 			try checkEquationValidity()
@@ -94,10 +95,10 @@ class Calculator {
 
 			let result: Double
 			switch mathOperator {
-			case Operators.addition.rawValue: result = leftValue + rightValue
-			case Operators.substraction.rawValue: result = leftValue - rightValue
-			case Operators.multiplication.rawValue: result = leftValue * rightValue
-			case Operators.division.rawValue:
+			case MathOperator.addition.rawValue: result = leftValue + rightValue
+			case MathOperator.substraction.rawValue: result = leftValue - rightValue
+			case MathOperator.multiplication.rawValue: result = leftValue * rightValue
+			case MathOperator.division.rawValue:
 				do { try verifyCanDivide(leftValue, by: rightValue) } catch {
 					printedString = CalculatorError.zeroDivisor.localizedDescription
 					return
@@ -134,7 +135,7 @@ class Calculator {
 
 	private var isElementsContainingOperators: Bool {
 		/// Check if the operators are contained in the array of not
-		for operand in Operators.allCases where elements.contains(operand.rawValue) {
+		for operand in MathOperator.allCases where elements.contains(operand.rawValue) {
 			return true
 		}
 		return false
@@ -152,10 +153,9 @@ class Calculator {
 
 	/// Loop on all the cases for the operators in MathOperator to see if last in element
 	private var isLastElementOperator: Bool {
-		for mathOperator in Operators.allCases {
-			if mathOperator.rawValue == elements.last {
+		for mathOperator in MathOperator.allCases where mathOperator.rawValue == elements.last {
 				return true
-			}
+
 		}
 		return false
 	}
@@ -210,7 +210,7 @@ class Calculator {
 	/// check in the operators to see whether the operators used are piority operators or not and returning a boolean
 	private func isPriorityOperator(mathOperator: String) -> Bool {
 		switch mathOperator {
-		case Operators.multiplication.rawValue, Operators.division.rawValue: return true
+		case MathOperator.multiplication.rawValue, MathOperator.division.rawValue: return true
 		default: return false
 		}
 	}
