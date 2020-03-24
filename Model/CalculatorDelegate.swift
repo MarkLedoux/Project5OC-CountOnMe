@@ -9,5 +9,5 @@
 import Foundation
 
 protocol CalculatorDelegate: class {
-    func didUpdatePrintedString()
+	func didUpdatePrintedString()
 }
