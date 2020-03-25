@@ -25,7 +25,7 @@ class Calculator {
 	/// Set printedString to "" then add a number
 	func addNumber(_ numberText: String) {
 		isEmpty()
-		removeFirstZeroInNumber()
+		removeFirstZeroInNumber(number: "0")
 		if expressionHaveResult {
 			printedString = ""
 		}
@@ -160,6 +160,14 @@ class Calculator {
 		return false
 	}
 
+	/// check first element is zero
+	private var isFirstElementZeroNumber: Bool {
+		for mathOperator in MathOperator.allCases where elements.contains(mathOperator.rawValue) && elements.last == "0" {
+			return true
+		}
+		return false
+	}
+
 	// MARK: Methods - Private
 	/// operationsToReduce contains priority operator?
 	private func operationContainsPriorityOperator(operationsToReduce: [String]) -> Bool {
@@ -224,6 +232,7 @@ class Calculator {
 		}
 	}
 
+	///check if printedString is empty
 	private func isEmpty() {
 		if !printedString.isEmpty || printedString.isEmpty {
 			if printedString.first == "0" {
@@ -232,16 +241,10 @@ class Calculator {
 		}
 	}
 
-	private func removeFirstZeroInNumber() {
-		//        print(printedString)
-		//        if printedString.count > 2 {
-		//            print()
-		//            print("Printed is currently: \(printedString)")
-		//            if printedString.hasSuffix(String(operators.contains(where: printedString.contains))) {
-		//                if printedString.first == "0" {
-		//                    printedString.remove(at: printedString.endIndex)
-		//                }
-		//            }
-		//        }
+	/// removing zero if it is the first number
+	private func removeFirstZeroInNumber(number: String) {
+		if isFirstElementZeroNumber {
+			printedString.removeLast()
+		}
 	}
 }

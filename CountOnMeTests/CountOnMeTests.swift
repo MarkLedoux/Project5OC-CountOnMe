@@ -597,4 +597,25 @@ class CountOnMeTests: XCTestCase {
 		// Then
 		XCTAssertEqual(calculator.printedString, "9 - 8")
 	}
+
+	func testremoveExtraZeroNoMatterThePlace() {
+		// Given
+		let calculator = Calculator()
+		calculator.printedString = "9 - 0"
+
+		// When
+		calculator.addNumber("8")
+		calculator.add(operators: .division)
+		calculator.addNumber("0")
+		calculator.addNumber("5")
+		calculator.add(operators: .multiplication)
+		calculator.addNumber("0")
+		calculator.addNumber("9")
+		calculator.add(operators: .substraction)
+		calculator.addNumber("0")
+		calculator.addNumber("8")
+
+		// Then
+		XCTAssertEqual(calculator.printedString, "9 - 8 ÷ 5 × 9 - 8")
+	}
 }
