@@ -144,6 +144,7 @@ class Calculator {
 	/// property to say how many numbers after the decimal are allowed
 	private var numberFormatter: NumberFormatter = {
 		let formatter = NumberFormatter()
+		formatter.groupingSeparator = ""
 		formatter.minimumFractionDigits = 0
 		formatter.maximumFractionDigits = 5
 
