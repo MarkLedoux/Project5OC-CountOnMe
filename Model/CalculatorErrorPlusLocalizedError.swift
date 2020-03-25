@@ -22,15 +22,15 @@ extension CalculatorError: LocalizedError {
 	public var errorDescription: String? {
 		switch self {
 		case .zeroDivisor:
-			return NSLocalizedString("Not a number", comment: "")
+			return NSLocalizedString("error_not_a_number", comment: "")
 		case .missingElement:
-			return NSLocalizedString("Element missing", comment: "")
+			return NSLocalizedString("error_element_missing", comment: "")
 		case .unknownOperator:
-			return NSLocalizedString("Unknown operator!", comment: "")
+			return NSLocalizedString("error_unknown_operator", comment: "")
 		case .leftOperatorNotValid:
-			return NSLocalizedString("Left operator not valid", comment: "")
+			return NSLocalizedString("error_left_operator_not_valid", comment: "")
 		case .rightOperatorNotValid:
-			return NSLocalizedString("Right operator not valid", comment: "")
+			return NSLocalizedString("error_right_operator_not_valid", comment: "")
 		}
 	}
 }

@@ -105,8 +105,8 @@ class Calculator {
 				}
 				result = leftValue / rightValue
 			default:
-				assertionFailure(CalculatorError.unknownOperator.localizedDescription)
-				return
+//				assertionFailure(CalculatorError.unknownOperator.localizedDescription)
+			return
 			}
 			cleanEquation(operationsToReduce: &operationsToReduce,
 						  result: result, currentOperationUnitIndex: currentOperationUnitIndex)

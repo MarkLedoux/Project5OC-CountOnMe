@@ -631,7 +631,7 @@ class CountOnMeTests: XCTestCase {
 		XCTAssertEqual(calculator.printedString, "30 × 50 - 3")
 	}
 
-	func testVerifyOperationReturnProperResult() {
+	func testVerifyOperationReturnProperResultLeftToRight() {
 		// Given
 		let calculator = Calculator()
 		calculator.printedString = "30 × 50 + 0"
@@ -642,5 +642,18 @@ class CountOnMeTests: XCTestCase {
 
 		// Then
 		XCTAssertEqual(calculator.printedString, "1503")
+	}
+
+	func testVerifyOperationReturnProperResultRightToLeft() {
+		// Given
+		let calculator = Calculator()
+		calculator.printedString = "30 + 50 × 80  + 0"
+
+		// When
+		calculator.addNumber("3")
+		calculator.reduce()
+
+		// Then
+		XCTAssertEqual(calculator.printedString, "4033")
 	}
 }
