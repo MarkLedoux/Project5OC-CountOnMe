@@ -10,5 +10,21 @@
 			<integer>0</integer>
 		</dict>
 	</dict>
+<<<<<<< HEAD
+=======
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>1FA43BCE224E569900F565CB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6E959DEE23A8F67A00FE1DC9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+>>>>>>> modelNotification
 </dict>
 </plist>
