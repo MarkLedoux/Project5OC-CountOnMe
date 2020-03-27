@@ -15,6 +15,7 @@ enum CalculatorError: Error {
 	case unknownOperator
 	case leftOperatorNotValid
 	case rightOperatorNotValid
+	case unknownError
 }
 
 extension CalculatorError: LocalizedError {
@@ -31,6 +32,8 @@ extension CalculatorError: LocalizedError {
 			return NSLocalizedString("error_left_operator_not_valid", comment: "")
 		case .rightOperatorNotValid:
 			return NSLocalizedString("error_right_operator_not_valid", comment: "")
+		case .unknownError:
+			return NSLocalizedString("error_unknown_error", comment: "")
 		}
 	}
 }

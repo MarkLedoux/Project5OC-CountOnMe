@@ -25,7 +25,7 @@ class Calculator {
 	/// Set printedString to "" then add a number
 	func addNumber(_ numberText: String) {
 		isEmpty()
-		removeFirstZeroInNumber(number: "0")
+		removeFirstZero()
 		if expressionHaveResult {
 			printedString = ""
 		}
@@ -105,7 +105,7 @@ class Calculator {
 				}
 				result = leftValue / rightValue
 			default:
-//				assertionFailure(CalculatorError.unknownOperator.localizedDescription)
+				assertionFailure(CalculatorError.unknownError.localizedDescription)
 			return
 			}
 			cleanEquation(operationsToReduce: &operationsToReduce,
@@ -243,7 +243,7 @@ class Calculator {
 	}
 
 	/// removing zero if it is the first number
-	private func removeFirstZeroInNumber(number: String) {
+	private func removeFirstZero() {
 		if isFirstElementZeroNumber {
 			printedString.removeLast()
 		}

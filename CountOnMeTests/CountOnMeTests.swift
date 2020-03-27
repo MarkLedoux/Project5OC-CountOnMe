@@ -239,7 +239,6 @@ class CountOnMeTests: XCTestCase {
     func testEqualButton() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = ""
 
         // When
         calculator.reduce()
