@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol CalculatorDelegate: class {
+protocol CalculatorDelegate: AnyObject {
 	func didUpdatePrintedString()
 }
