@@ -105,6 +105,8 @@ class Calculator {
 				}
 				result = leftValue / rightValue
 			default:
+				/// an assertion to stop the program's execution is something outside of the cases is encountered
+				/// doesn't impact shipping in any way, app crashes when equal is tapped in production but would not happen when the app is shipped 
 				assertionFailure(CalculatorError.unknownError.localizedDescription)
 			return
 			}

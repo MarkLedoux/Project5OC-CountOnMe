@@ -2,10 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-<<<<<<< HEAD
       location = "self:">
-=======
-      location = "self:/Users/vinceled/Documents/Project5OC-CountOnMe/CountOnMe.xcodeproj">
->>>>>>> modelNotification
    </FileRef>
 </Workspace>
