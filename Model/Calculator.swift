@@ -15,7 +15,7 @@ class Calculator {
 	// MARK: Properties
 	weak var delegate: CalculatorDelegate?
 
-	var printedString: String = "0" {
+	private(set) var printedString: String = "0" {
 		didSet {
 			delegate?.didUpdatePrintedString()
 		}
@@ -24,29 +24,39 @@ class Calculator {
 	// MARK: Methods
 	/// Set printedString to "" then add a number
 	func addNumber(_ numberText: String) {
-		isEmpty()
-		removeFirstZero()
-		if expressionHaveResult {
+		if isResultDisplayed {
 			printedString = ""
 		}
+		isResultDisplayed = false
+
+		isEmpty()
+		removeFirstZero()
 
 		printedString.append(numberText)
 	}
 
 	/// contains operators or is last element operator?
-	func add(operators: MathOperator) {
+	func add(mathOperator: MathOperator) {
+		if isResultDisplayed {
+			printedString = ""
+		}
+		isResultDisplayed = false
 		removeLastOperatorIfNecessary()
-		printedString.append(" \(operators.rawValue) ")
+		printedString.append(" \(mathOperator.rawValue) ")
+		removeFirstOperatorIfNecessary()
 	}
 
 	/// resetting whatever value held by printedString to 0 then nothing so a new operation can be started
 	func reset() {
 		printedString = "0"
+		isResultDisplayed = false
 	}
 
 	/// processing all the elements contained in printedString to return a result
 	// swiftlint:disable:next  function_body_length
 	func reduce() {
+		isResultDisplayed = true
+
 		do {
 			try checkEquationValidity()
 		} catch CalculatorError.unknownOperator {
@@ -68,7 +78,6 @@ class Calculator {
 			let operationsContainsPriorityOperator =
 				operationContainsPriorityOperator(operationsToReduce: operationsToReduce)
 
-			/// check 
 			let isPriorityOperators = isPriorityOperator(mathOperator: mathOperator)
 			/// Check for priority operator and first loop
 			guard isPriorityOperators || !operationsContainsPriorityOperator else {
@@ -131,13 +140,11 @@ class Calculator {
 	}
 
 	/// check if the previous expression was processed successfully
-	private var expressionHaveResult: Bool {
-		return printedString.firstIndex(of: "=") != nil
-	}
+	private var isResultDisplayed = false
 
 	private var isElementsContainingOperators: Bool {
 		/// Check if the operators are contained in the array of not
-		for operand in MathOperator.allCases where elements.contains(operand.rawValue) {
+		for mathOperator in MathOperator.allCases where elements.contains(mathOperator.rawValue) {
 			return true
 		}
 		return false
@@ -151,6 +158,7 @@ class Calculator {
 		formatter.maximumFractionDigits = 5
 
 		formatter.numberStyle = .decimal
+		formatter.decimalSeparator = "."
 		return formatter
 	}()
 
@@ -158,7 +166,13 @@ class Calculator {
 	private var isLastElementOperator: Bool {
 		for mathOperator in MathOperator.allCases where mathOperator.rawValue == elements.last {
 				return true
+		}
+		return false
+	}
 
+	private var isFirstElementOperator: Bool {
+		for mathOperator in MathOperator.allCases where mathOperator.rawValue == elements.first {
+			return true
 		}
 		return false
 	}
@@ -232,6 +246,12 @@ class Calculator {
 			printedString.removeLast()
 			printedString.removeLast()
 			printedString.removeLast()
+		}
+	}
+
+	private func removeFirstOperatorIfNecessary() {
+		if isFirstElementOperator {
+			printedString = "0"
 		}
 	}
 

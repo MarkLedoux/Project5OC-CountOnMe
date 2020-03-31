@@ -22,7 +22,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceAddition() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "4 + 5"
+		calculator.addNumber("4")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("5")
 
         // When
         calculator.reduce()
@@ -35,7 +37,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceSubstraction() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 - 8"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("8")
 
         // When
         calculator.reduce()
@@ -47,7 +51,11 @@ class CountOnMeTests: XCTestCase {
     func testPlusMinusResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 + 8 - 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("8")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("3")
 
         // When
         calculator.reduce()
@@ -59,7 +67,11 @@ class CountOnMeTests: XCTestCase {
     func testMinusPlusResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 - 8 + 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("8")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("3")
 
         // When
         calculator.reduce()
@@ -71,7 +83,11 @@ class CountOnMeTests: XCTestCase {
     func testPlusPlusResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 + 8 + 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("8")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("3")
 
         // When
         calculator.reduce()
@@ -83,7 +99,11 @@ class CountOnMeTests: XCTestCase {
     func testMinusMinusResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 - 8 - 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("8")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("3")
 
         // When
         calculator.reduce()
@@ -95,7 +115,11 @@ class CountOnMeTests: XCTestCase {
     func testMultiplyMultiplyResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 × 8 × 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("8")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("3")
 
         // When
         calculator.reduce()
@@ -107,7 +131,11 @@ class CountOnMeTests: XCTestCase {
     func testMultiplyDivisionResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 × 8 ÷ 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("8")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
 
         // When
         calculator.reduce()
@@ -119,7 +147,11 @@ class CountOnMeTests: XCTestCase {
     func testDivisionDivisonResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "12 ÷ 2 ÷ 6"
+		calculator.addNumber("12")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("2")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("6")
 
         // When
         calculator.reduce()
@@ -131,7 +163,11 @@ class CountOnMeTests: XCTestCase {
     func testDivisionMultiplyResolveFromLeftToRight() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "12 ÷ 2 × 6"
+		calculator.addNumber("12")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("2")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("6")
 
         // When
         calculator.reduce()
@@ -143,7 +179,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceMutltiply() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 × 8"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("8")
 
         // When
         calculator.reduce()
@@ -155,7 +193,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceDivision() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 ÷ 4"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("4")
 
         // When
         calculator.reduce()
@@ -178,7 +218,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceDivisionByZero() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "5 ÷ 0"
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("0")
 
         // When
         calculator.reduce()
@@ -190,50 +232,50 @@ class CountOnMeTests: XCTestCase {
     func testMinusButton() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = ""
+        calculator.addNumber("")
 
         // When
-		calculator.add(operators: .substraction)
+		calculator.add(mathOperator: .substraction)
 
         // Then
-        XCTAssertEqual(calculator.printedString, " \(MathOperator.substraction.rawValue) ")
+        XCTAssertEqual(calculator.printedString, "0")
     }
 
     func testPlusButton() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = ""
+        calculator.addNumber("")
 
         // When
-		calculator.add(operators: .addition)
+		calculator.add(mathOperator: .addition)
 
         // Then
-        XCTAssertEqual(calculator.printedString, " \(MathOperator.addition.rawValue) ")
+        XCTAssertEqual(calculator.printedString, "0")
     }
 
     func testMultiplyButton() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = ""
+        calculator.addNumber("")
 
         // When
-		calculator.add(operators: .multiplication)
+		calculator.add(mathOperator: .multiplication)
 
         // Then
-        XCTAssertEqual(calculator.printedString, " \(MathOperator.multiplication.rawValue) ")
+        XCTAssertEqual(calculator.printedString, "0")
     }
 
     func testDivideButton() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = ""
+        calculator.addNumber("")
 
         // When
-		calculator.add(operators: .division)
+		calculator.add(mathOperator: .division)
 
         // Then
 
-        XCTAssertEqual(calculator.printedString, " \(MathOperator.division.rawValue) ")
+        XCTAssertEqual(calculator.printedString, "0")
     }
 
     func testEqualButton() {
@@ -251,7 +293,7 @@ class CountOnMeTests: XCTestCase {
     func testAddNumber() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = ""
+        calculator.addNumber("")
 
         // When
         calculator.addNumber(String(1))
@@ -263,7 +305,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceValidLeftoperator() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "a + 9"
+		calculator.addNumber("a")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("9")
 
         // When
         calculator.reduce()
@@ -275,7 +319,9 @@ class CountOnMeTests: XCTestCase {
     func testReduceValidRighttoperator() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 + a"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("a")
 
         // When
         calculator.reduce()
@@ -287,7 +333,10 @@ class CountOnMeTests: XCTestCase {
     func testAddNumberWhenExpressionHasResult() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "9 + 5 = 14"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("5")
+		calculator.reduce()
 
         // When
         calculator.addNumber("9")
@@ -299,22 +348,25 @@ class CountOnMeTests: XCTestCase {
     func testLeftOperator() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "- + 5"
+		calculator.add(mathOperator: .substraction)
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("5")
 
         // When
         calculator.reduce()
 
         //Then
-		XCTAssertEqual(calculator.printedString, CalculatorError.leftOperatorNotValid.localizedDescription)
+		XCTAssertEqual(calculator.printedString, CalculatorError.missingElement.localizedDescription)
     }
 
     func testOperandButtonAddition() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "5 + "
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .substraction)
 
         // When
-		calculator.add(operators: .addition)
+		calculator.add(mathOperator: .addition)
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 + ")
@@ -323,10 +375,11 @@ class CountOnMeTests: XCTestCase {
     func testOperandButtonSubstraction() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "5 + "
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .addition)
 
         // When
-		calculator.add(operators: .substraction)
+		calculator.add(mathOperator: .substraction)
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 - ")
@@ -335,10 +388,11 @@ class CountOnMeTests: XCTestCase {
     func testOperandButtonDivision() {
         // Given
         let calculator = Calculator()
-        calculator.printedString = "5 + "
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .addition)
 
         // When
-		calculator.add(operators: .division)
+		calculator.add(mathOperator: .division)
 
         // Then
         XCTAssertEqual(calculator.printedString, "5 ÷ ")
@@ -347,10 +401,11 @@ class CountOnMeTests: XCTestCase {
 	func testOperandButtonMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "5 + "
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .addition)
 
 		// When
-		calculator.add(operators: .multiplication)
+		calculator.add(mathOperator: .multiplication)
 
 		// Then
 		XCTAssertEqual(calculator.printedString, "5 × ")
@@ -359,7 +414,10 @@ class CountOnMeTests: XCTestCase {
 	func testExpressionHasResult() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 × 9 = 81"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
+		calculator.reduce()
 
 		// When
 		calculator.addNumber("9")
@@ -371,7 +429,11 @@ class CountOnMeTests: XCTestCase {
 	func testAdditionMultiplicationPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 + 5 × 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -383,7 +445,11 @@ class CountOnMeTests: XCTestCase {
 	func testMultiplicationAdditionPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 × 5 + 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -395,7 +461,11 @@ class CountOnMeTests: XCTestCase {
 	func testSubstractionMultiplicationPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 - 5 × 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -407,7 +477,11 @@ class CountOnMeTests: XCTestCase {
 	func testMultiplicationSubstractionPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 × 5 - 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -419,7 +493,11 @@ class CountOnMeTests: XCTestCase {
 	func testAdditionDivisionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 + 9 ÷ 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -431,7 +509,11 @@ class CountOnMeTests: XCTestCase {
 	func testDivisionAdditionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 ÷ 9 + 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -443,7 +525,11 @@ class CountOnMeTests: XCTestCase {
 	func testSubsctractionDivisionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "27 - 9 ÷ 3"
+		calculator.addNumber("27")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -455,7 +541,11 @@ class CountOnMeTests: XCTestCase {
 	func testDivisionSubsctractionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "27 ÷ 9 - 3"
+		calculator.addNumber("27")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -467,7 +557,13 @@ class CountOnMeTests: XCTestCase {
 	func testAdditionMultiplicationMultiplicationPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 + 5 × 9 × 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -479,7 +575,13 @@ class CountOnMeTests: XCTestCase {
 	func testMultiplicationAdditionMultiplicationPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 × 5 + 9 × 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -491,7 +593,13 @@ class CountOnMeTests: XCTestCase {
 	func testSubstractionMultiplicationMultiplicationPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 - 5 × 9 × 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -503,7 +611,13 @@ class CountOnMeTests: XCTestCase {
 	func testMultiplicationSubstractionMultiplicationPriorityForMultiplication() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 × 5 - 9 × 9"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("5")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
@@ -515,7 +629,13 @@ class CountOnMeTests: XCTestCase {
 	func testAdditionDivisionDivisionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 + 9 ÷ 3 ÷ 3"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -527,7 +647,13 @@ class CountOnMeTests: XCTestCase {
 	func testDivisionAdditionDivisionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 ÷ 9 + 3 ÷ 5"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("3")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("5")
 
 		// When
 		calculator.reduce()
@@ -539,7 +665,13 @@ class CountOnMeTests: XCTestCase {
 	func testSubsctractionDivisionDivisionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "27 - 9 ÷ 3 ÷ 3"
+		calculator.addNumber("27")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("3")
 
 		// When
 		calculator.reduce()
@@ -551,7 +683,13 @@ class CountOnMeTests: XCTestCase {
 	func testDivisionSubsctractionDivisionPriorityForDivision() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "27 ÷ 9 - 3 ÷ 4"
+		calculator.addNumber("27")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("3")
+		calculator.add(mathOperator: .division)
+		calculator.addNumber("4")
 
 		// When
 		calculator.reduce()
@@ -563,7 +701,7 @@ class CountOnMeTests: XCTestCase {
 	func testValidFirstNumberInOperation() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = ""
+		calculator.addNumber("")
 
 		// When
 		calculator.addNumber("0")
@@ -576,19 +714,23 @@ class CountOnMeTests: XCTestCase {
 	func testNonValidtoperator() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 a 9"
+		calculator.addNumber("9")
+		calculator.addNumber("a")
+		calculator.addNumber("9")
 
 		// When
 		calculator.reduce()
 
 		// Then
-		XCTAssertEqual(calculator.printedString, CalculatorError.unknownOperator.localizedDescription)
+		XCTAssertEqual(calculator.printedString, CalculatorError.missingElement.localizedDescription)
 	}
 
 	func testremoveExtraZero() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 - 0"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("0")
 
 		// When
 		calculator.addNumber("8")
@@ -600,17 +742,19 @@ class CountOnMeTests: XCTestCase {
 	func testremoveExtraZeroNoMatterThePlace() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "9 - 0"
+		calculator.addNumber("9")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("0")
 
 		// When
 		calculator.addNumber("8")
-		calculator.add(operators: .division)
+		calculator.add(mathOperator: .division)
 		calculator.addNumber("0")
 		calculator.addNumber("5")
-		calculator.add(operators: .multiplication)
+		calculator.add(mathOperator: .multiplication)
 		calculator.addNumber("0")
 		calculator.addNumber("9")
-		calculator.add(operators: .substraction)
+		calculator.add(mathOperator: .substraction)
 		calculator.addNumber("0")
 		calculator.addNumber("8")
 
@@ -621,7 +765,11 @@ class CountOnMeTests: XCTestCase {
 	func testVerifyZeroNotRemoved() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "30 × 50 - 0"
+		calculator.addNumber("30")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("50")
+		calculator.add(mathOperator: .substraction)
+		calculator.addNumber("0")
 
 		// When
 		calculator.addNumber("3")
@@ -633,7 +781,11 @@ class CountOnMeTests: XCTestCase {
 	func testVerifyOperationReturnProperResultLeftToRight() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "30 × 50 + 0"
+		calculator.addNumber("30")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("50")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("0")
 
 		// When
 		calculator.addNumber("3")
@@ -646,7 +798,13 @@ class CountOnMeTests: XCTestCase {
 	func testVerifyOperationReturnProperResultRightToLeft() {
 		// Given
 		let calculator = Calculator()
-		calculator.printedString = "30 + 50 × 80  + 0"
+		calculator.addNumber("30")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("50")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("80")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("0")
 
 		// When
 		calculator.addNumber("3")
