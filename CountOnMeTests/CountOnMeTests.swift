@@ -813,4 +813,36 @@ class CountOnMeTests: XCTestCase {
 		// Then
 		XCTAssertEqual(calculator.printedString, "4033")
 	}
+
+	func testLastElementIsOperator() {
+		// Given
+		let calculator = Calculator()
+		calculator.addNumber("30")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("50")
+		calculator.add(mathOperator: .multiplication)
+		calculator.addNumber("80")
+		calculator.add(mathOperator: .addition)
+
+		// When
+		calculator.reduce()
+
+		// Then
+		XCTAssertEqual(calculator.printedString, CalculatorError.missingElement.localizedDescription)
+	}
+
+	func testIsResultDisplayed() {
+		// Given
+		let calculator = Calculator()
+		calculator.addNumber("30")
+		calculator.add(mathOperator: .addition)
+		calculator.addNumber("50")
+
+		// When
+		calculator.reduce()
+		calculator.add(mathOperator: .addition)
+
+		// Then
+		XCTAssertEqual(calculator.printedString, "0")
+	}
 }

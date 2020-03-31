@@ -10,18 +10,23 @@ import Foundation
 
 class Calculator {
 
-	// MARK: - Internal
-
-	// MARK: Properties
+	// MARK: - Public Properties
 	weak var delegate: CalculatorDelegate?
 
+	/*
+	Acccess level for printedString is marked with a private(set) modifier,
+	Indicate that the property’s getter still has the default access level of internal,
+	But the property is settable only from within code that’s part of Calculator.
+	This enables Calculator to modify printedString internally,
+	Present the property as a read-only property when it’s used outside.
+	*/
 	private(set) var printedString: String = "0" {
 		didSet {
 			delegate?.didUpdatePrintedString()
 		}
 	}
 
-	// MARK: Methods
+	// MARK: - Public Methods
 	/// Set printedString to "" then add a number
 	func addNumber(_ numberText: String) {
 		if isResultDisplayed {
@@ -59,8 +64,6 @@ class Calculator {
 
 		do {
 			try checkEquationValidity()
-		} catch CalculatorError.unknownOperator {
-			return
 		} catch CalculatorError.missingElement {
 			return
 		} catch {}
@@ -116,7 +119,7 @@ class Calculator {
 			default:
 				/// an assertion to stop the program's execution is something outside of the cases is encountered
 				/// doesn't impact shipping in any way
-				assertionFailure(CalculatorError.unknownError.localizedDescription)
+				assertionFailure(CalculatorError.missingElement.localizedDescription)
 			return
 			}
 			cleanEquation(operationsToReduce: &operationsToReduce,
@@ -126,9 +129,7 @@ class Calculator {
 		}
 	}
 
-	// MARK: - Private
-
-	// MARK: Properties
+	// MARK: - Private Properties
 	/// separating all the elements of printedString so they can be used individually throughout the code
 	private var elements: [String] {
 		return printedString.split(separator: " ").map { "\($0)" }
@@ -141,14 +142,6 @@ class Calculator {
 
 	/// check if the previous expression was processed successfully
 	private var isResultDisplayed = false
-
-	private var isElementsContainingOperators: Bool {
-		/// Check if the operators are contained in the array of not
-		for mathOperator in MathOperator.allCases where elements.contains(mathOperator.rawValue) {
-			return true
-		}
-		return false
-	}
 
 	/// property to say how many numbers after the decimal are allowed
 	private var numberFormatter: NumberFormatter = {
@@ -193,14 +186,15 @@ class Calculator {
 
 	///handling possible errors in case the expression processed doesn't contain all the necessary elements
 	private func checkEquationValidity() throws {
+
 		guard expressionHaveEnoughElement else {
 			printedString = CalculatorError.missingElement.localizedDescription
 			throw CalculatorError.missingElement
 		}
 
-		guard isElementsContainingOperators else {
-			printedString = CalculatorError.unknownOperator.localizedDescription
-			throw CalculatorError.unknownOperator
+		guard !isLastElementOperator else {
+			printedString = CalculatorError.missingElement.localizedDescription
+			throw CalculatorError.missingElement
 		}
 	}
 

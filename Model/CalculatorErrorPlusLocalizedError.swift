@@ -12,10 +12,8 @@ import Foundation
 enum CalculatorError: Error {
 	case zeroDivisor
 	case missingElement
-	case unknownOperator
 	case leftOperatorNotValid
 	case rightOperatorNotValid
-	case unknownError
 }
 
 extension CalculatorError: LocalizedError {
@@ -26,14 +24,10 @@ extension CalculatorError: LocalizedError {
 			return NSLocalizedString("error_not_a_number", comment: "")
 		case .missingElement:
 			return NSLocalizedString("error_element_missing", comment: "")
-		case .unknownOperator:
-			return NSLocalizedString("error_unknown_operator", comment: "")
 		case .leftOperatorNotValid:
 			return NSLocalizedString("error_left_operator_not_valid", comment: "")
 		case .rightOperatorNotValid:
 			return NSLocalizedString("error_right_operator_not_valid", comment: "")
-		case .unknownError:
-			return NSLocalizedString("error_unknown_error", comment: "")
 		}
 	}
 }

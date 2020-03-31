@@ -8,7 +8,5 @@
 
 "error_not_a_number" = "Not a number";
 "error_element_missing" = "Element missing";
-"error_unknown_operator" = "Unknown operator!";
 "error_left_operator_not_valid" = "Left operator not valid";
 "error_right_operator_not_valid" = "Right operator not valid";
-"error_unknown_error" = "An unexpected error has occured";

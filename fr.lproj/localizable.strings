@@ -8,7 +8,5 @@
 
 "error_not_a_number" = "Pas un nombre";
 "error_element_missing" = "Élément manquant";
-"error_unknown_operator" = "Opérateur inconnu !";
 "error_left_operator_not_valid" = "Opérateur de gauche non valide";
 "error_right_operator_not_valid" = "Opérateur de droite non valide";
-"error_unknown_error" = "Une erreur inattendue est survenue";
