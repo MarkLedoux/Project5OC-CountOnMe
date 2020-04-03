@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Calculator {
+final class Calculator {
 
 	// MARK: - Public Properties
 	weak var delegate: CalculatorDelegate?
@@ -237,9 +237,7 @@ class Calculator {
 	/// check to see if an operand is contained within printedString and if true then remove the copy of the operand
 	private func removeLastOperatorIfNecessary() {
 		if isLastElementOperator {
-			printedString.removeLast()
-			printedString.removeLast()
-			printedString.removeLast()
+			printedString.removeLast(3)
 		}
 	}
 

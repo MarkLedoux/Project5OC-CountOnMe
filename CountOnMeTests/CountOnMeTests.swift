@@ -10,6 +10,7 @@ import XCTest
 @testable import CountOnMe
 
 class CountOnMeTests: XCTestCase {
+    // be a bit more precise in the name of the tests
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

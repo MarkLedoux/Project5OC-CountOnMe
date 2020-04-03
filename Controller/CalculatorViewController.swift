@@ -8,9 +8,8 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
-	@IBOutlet weak var textView: UITextView!
-	@IBOutlet var numberButtons: [UIButton]!
+final class CalculatorViewController: UIViewController {
+	@IBOutlet private weak var textView: UITextView!
 
 	private let calculator = Calculator()
 
@@ -22,30 +21,31 @@ class CalculatorViewController: UIViewController {
 
 	// MARK: Actions
 
-	@IBAction func tappedNumberButton(_ sender: UIButton) {
+	@IBAction private func tappedNumberButton(_ sender: UIButton) {
 		guard let numberText = sender.title(for: .normal) else {
 			return
 		}
 		calculator.addNumber(numberText)
 	}
 
-	@IBAction func tappedAdditionButton(_ sender: UIButton) {
+    // une seule action pour tous les boutons? 
+	@IBAction private func tappedAdditionButton(_ sender: UIButton) {
 		calculator.add(mathOperator: .addition)
 	}
 
-	@IBAction func tappedSubstractionButton(_ sender: UIButton) {
+	@IBAction private func tappedSubstractionButton(_ sender: UIButton) {
 		calculator.add(mathOperator: .substraction)
 	}
 
-	@IBAction func tappedMultiplyButton(_ sender: UIButton) {
+	@IBAction private func tappedMultiplyButton(_ sender: UIButton) {
 		calculator.add(mathOperator: .multiplication)
 	}
 
-	@IBAction func tappedDivideButton(_ sender: UIButton) {
+	@IBAction private func tappedDivideButton(_ sender: UIButton) {
 		calculator.add(mathOperator: .division)
 	}
 
-	@IBAction func tappedEqualButton(_ sender: UIButton) {
+	@IBAction private func tappedEqualButton(_ sender: UIButton) {
 		calculator.reduce()
 	}
 

@@ -16,6 +16,7 @@ such that a conforming type (known as a delegate) is guaranteed to provide the f
 Delegation can be used to respond to a particular action,
 or to retrieve data from an external source without needing to know the underlying type of that source.
 */
-protocol CalculatorDelegate: AnyObject {
+
+protocol CalculatorDelegate: class {
 	func didUpdatePrintedString()
 }
